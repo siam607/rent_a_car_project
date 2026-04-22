@@ -1,0 +1,155 @@
+{% load custom_filters %}
+{% if not booking %}
+<!DOCTYPE html>
+<html>
+<head><title>Error - SSL Rent a Car BD</title></head>
+<body class="text-center py-5">
+    <i class="bi bi-exclamation-triangle text-danger display-1 mb-3"></i>
+    <h2>Invoice Unavailable</h2>
+    <p class="text-muted mb-4">{{ error|default:'Invalid booking reference or invoice not available.' }}</p>
+    <a href="{% url 'pages:home' %}" class="btn btn-outline-secondary">Back to Home</a>
+</body>
+</html>
+{% else %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice - SSL Rent a Car BD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        @media print {
+            @page { size: A4; margin: 10mm; }
+            body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .no-print { display: none !important; }
+        }
+        .invoice-container {
+            max-width: 800px; margin: 40px auto; padding: 30px; border: 2px solid #667eea;
+            border-radius: 12px; background: #fff; font-family: Arial, sans-serif; line-height: 1.6;
+        }
+        .text-primary-custom { color: #667eea; }
+        .bg-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .border-custom { border-color: #667eea !important; }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="text-center mb-4 pb-3 border-custom border-bottom">
+            <h1 class="text-primary-custom fw-bold mb-2">SSL RENT A CAR BD</h1>
+            <p class="text-muted mb-1">Premium Car Rental Services in Bangladesh</p>
+            <p class="text-muted small mb-0">House 123, Road 45, Dhanmondi, Dhaka - 1209 | +880 1849448321 | info@sslrentacarbd.com</p>
+        </div>
+
+        <!-- Title -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">BOOKING INVOICE</h2>
+            <p class="text-muted">Generated on: {{ booking.created_at|date:"F d, Y" }}</p>
+        </div>
+
+        <!-- Reference -->
+        <div class="bg-gradient text-white text-center p-3 rounded mb-4">
+            <h4 class="mb-1">Booking Reference</h4>
+            <h2 class="fw-bold mb-0">{{ booking.booking_reference }}</h2>
+        </div>
+
+        <!-- Customer & Rental Details -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5 class="text-primary-custom border-custom border-bottom pb-2 mb-3">Customer Information</h5>
+                <p><strong>Name:</strong> {{ booking.customer_name }}</p>
+                <p><strong>Email:</strong> {{ booking.customer_email }}</p>
+                <p><strong>Phone:</strong> {{ booking.customer_phone }}</p>
+                <p><strong>NID/Passport:</strong> {{ booking.nid_passport|default:'N/A' }}</p>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-primary-custom border-custom border-bottom pb-2 mb-3">Rental Details</h5>
+                <p><strong>Pick-up:</strong> {{ booking.pickup_date|date:"F d, Y" }}</p>
+                <p><strong>Drop-off:</strong> {{ booking.dropoff_date|date:"F d, Y" }}</p>
+                <p><strong>Duration:</strong> {{ booking.rental_days }} day{{ booking.rental_days|pluralize }}</p>
+                <p><strong>Pick-up Location:</strong> {{ booking.pickup_location }}</p>
+                <p><strong>Drop-off Location:</strong> {{ booking.dropoff_location }}</p>
+            </div>
+        </div>
+
+        <!-- Car Details -->
+        <div class="p-3 bg-light rounded mb-4">
+            <h5 class="text-primary-custom border-custom border-bottom pb-2 mb-3">Vehicle Information</h5>
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <p class="mb-2"><strong>Car:</strong> {{ booking.car.name }}</p>
+                    <p class="mb-2"><strong>Transmission:</strong> {{ booking.car.get_transmission_display }}</p>
+                    <p class="mb-2"><strong>Fuel Type:</strong> {{ booking.car.get_fuel_type_display }}</p>
+                    <p class="mb-0"><strong>Seats:</strong> {{ booking.car.seats }}</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <p class="display-4 fw-bold text-primary-custom mb-0">৳{{ booking.daily_rate|intcomma }}</p>
+                    <p class="text-muted">per day</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="border-custom border p-3 rounded mb-4">
+            <h5 class="text-primary-custom border-custom border-bottom pb-2 mb-3">Price Summary</h5>
+            <div class="row">
+                <div class="col-8">Daily Rate × {{ booking.rental_days }} day(s):</div>
+                <div class="col-4 text-end">৳{{ booking.subtotal|intcomma }}</div>
+            </div>
+            <div class="row text-success">
+                <div class="col-8">Discount ({{ booking.discount|floatformat:0 }}%):</div>
+                <div class="col-4 text-end">-৳{{ booking.discount_amount|intcomma }}</div>
+            </div>
+            <hr class="border-custom">
+            <div class="row fw-bold fs-5">
+                <div class="col-8">Total Payable:</div>
+                <div class="col-4 text-primary-custom">৳{{ booking.total|intcomma }}</div>
+            </div>
+        </div>
+
+        <!-- QR Code & Notes -->
+        <div class="row mt-4 pt-3 border-custom border-top">
+            <div class="col-md-8">
+                <h5 class="text-primary-custom mb-3">Important Notes:</h5>
+                <ul class="text-muted">
+                    <li>Please present this invoice at the time of pickup</li>
+                    <li>Bring your NID/Passport for verification</li>
+                    <li>Fuel is included in the rental price</li>
+                    <li>Roadside assistance: +880 1849448321</li>
+                </ul>
+            </div>
+            <div class="col-md-4 text-center">
+                <p class="text-muted mb-2">Scan for Booking Reference</p>
+                <div id="invQRCode" class="d-inline-block p-2 bg-white border rounded"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-4 pt-3 border-custom border-top">
+            <p class="text-muted mb-0">Thank you for choosing SSL Rent a Car BD. Have a safe journey!</p>
+            <p class="text-muted small mb-0">© {{ booking.created_at|date:"Y" }} SSL Rent a Car BD. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Print Button (hidden when printing) -->
+    <div class="text-center mt-3 no-print">
+        <button onclick="window.print()" class="btn btn-primary">
+            <i class="bi bi-printer"></i> Print / Save as PDF
+        </button>
+        <a href="{% url 'pages:home' %}" class="btn btn-outline-secondary ms-2">Back to Home</a>
+    </div>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+     <script>
+         window.onload = function() {
+             new QRCode(document.getElementById('invQRCode'), {
+                 text: "{{ booking.booking_reference }}",
+                 width: 100, height: 100,
+                 colorDark: '#667eea', colorLight: '#ffffff'
+             });
+             setTimeout(function() { window.print(); }, 500);
+         };
+     </script>
+ </body>
+ </html>
+ {% endif %}

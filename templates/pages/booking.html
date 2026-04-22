@@ -1,0 +1,725 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Book your car rental in Bangladesh. Select dates, pickup location, and driver details for instant reservation.">
+    <title>Book Now - Car Rental Reservation | SSL Rent a Car BD</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+     <style>
+         .booking-card {
+             border: 1px solid #e2e8f0;
+             border-radius: 12px;
+             padding: 1.5rem;
+             margin-bottom: 1.5rem;
+             background: white;
+             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+         }
+
+         .booking-card h5 {
+             color: #0a0e27;
+             font-weight: 700;
+             margin-bottom: 1.25rem;
+             padding-bottom: 0.75rem;
+             border-bottom: 2px solid #667eea;
+             display: inline-block;
+         }
+
+         .car-thumbnail {
+             width: 100%;
+             height: 150px;
+             object-fit: cover;
+             border-radius: 8px;
+             margin-bottom: 1rem;
+         }
+
+         .car-select-btn {
+             width: 100%;
+             padding: 10px;
+             border: 2px solid #667eea;
+             background: white;
+             color: #667eea;
+             border-radius: 8px;
+             font-weight: 600;
+             transition: all 0.3s ease;
+         }
+
+         .car-select-btn:hover {
+             background: #667eea;
+             color: white;
+         }
+
+         .car-select-btn.active {
+             background: #667eea;
+             color: white;
+         }
+
+         .price-tag {
+             font-size: 1.5rem;
+             font-weight: 700;
+             color: #667eea;
+         }
+
+         .car-selected {
+             border-color: #667eea;
+             background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+         }
+
+         .car-selected .car-select-btn {
+             background: #667eea;
+             color: white;
+         }
+
+         .summary-box {
+             background: #f8fafc;
+             border-radius: 12px;
+             padding: 1.5rem;
+         }
+
+         .summary-row {
+             display: flex;
+             justify-content: space-between;
+             padding: 0.5rem 0;
+             border-bottom: 1px solid #e2e8f0;
+         }
+
+         .summary-row:last-of-type {
+             border-bottom: none;
+         }
+
+         .summary-total {
+             font-size: 1.25rem;
+             font-weight: 700;
+             color: #0a0e27;
+             border-top: 2px solid #667eea;
+             padding-top: 0.75rem;
+             margin-top: 0.5rem;
+         }
+
+         .badge-transmission {
+             background: #667eea;
+             color: white;
+             padding: 4px 10px;
+             border-radius: 4px;
+             font-size: 0.8rem;
+         }
+
+         .badge-fuel {
+             background: #28a745;
+             color: white;
+             padding: 4px 10px;
+             border-radius: 4px;
+             font-size: 0.8rem;
+         }
+
+         .section-title {
+             font-size: 1.1rem;
+             font-weight: 700;
+             color: #0a0e27;
+             margin-bottom: 1rem;
+             display: flex;
+             align-items: center;
+             gap: 0.5rem;
+         }
+
+         .form-label {
+             font-weight: 600;
+             color: #333;
+             margin-bottom: 0.5rem;
+         }
+
+         .info-box {
+             background: #e3f2fd;
+             border-radius: 8px;
+             padding: 1rem;
+             font-size: 0.9rem;
+             color: #1565c0;
+         }
+
+         /* Fix form controls for light background */
+         #booking-section .form-control,
+         #booking-section .form-select,
+         .booking-section .form-control,
+         .booking-section .form-select,
+         .booking-card .form-control,
+         .booking-card .form-select {
+             background-color: #fff !important;
+             color: #333 !important;
+             border: 2px solid #e2e8f0 !important;
+         }
+
+         #booking-section .form-control:focus,
+         #booking-section .form-select:focus,
+         .booking-section .form-control:focus,
+         .booking-section .form-select:focus,
+         .booking-card .form-control:focus,
+         .booking-card .form-select:focus {
+             background-color: #fff !important;
+             color: #333 !important;
+             border-color: #667eea !important;
+             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15) !important;
+         }
+
+         #booking-section .form-control::placeholder,
+         .booking-section .form-control::placeholder,
+         .booking-card .form-control::placeholder {
+             color: #6c757d !important;
+         }
+
+         #booking-section .form-select option,
+         .booking-section .form-select option,
+         .booking-card .form-select option {
+             background-color: #fff;
+             color: #333;
+         }
+     </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+             <a class="navbar-brand fw-bold" href="{% url 'pages:home' %}">
+                <i class="bi bi-car-front-fill me-2"></i>SSL Rent a Car BD
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ms-auto">
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'pages:home' %}">Home</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'pages:fleet' %}">Our Fleet</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'pages:booking' %}">Book Now</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'pages:about' %}">About Us</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'pages:contact' %}">Contact</a>
+                      </li>
+                  </ul>
+                 <a href="{% url 'pages:booking' %}" class="btn btn-primary ms-lg-3 mt-3 mt-lg-0">
+                     <i class="bi bi-calendar-check me-2"></i>Reserve Now
+                 </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header py-5 bg-primary text-white text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold mb-3">Book Your Car</h1>
+            <p class="lead mb-0">Fill out the form below to make a reservation</p>
+        </div>
+    </section>
+
+     <!-- Booking Form -->
+     <section id="booking-section" class="booking-section py-5">
+         <div class="container">
+             <form method="post" action="{% url 'pages:booking' %}" class="needs-validation">
+                 {% csrf_token %}
+                 
+                 {% if messages %}
+                 <div class="messages mb-4">
+                     {% for message in messages %}
+                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                         {{ message }}
+                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>
+                     {% endfor %}
+                 </div>
+                 {% endif %}
+
+                 <!-- Step 1: Car Selection -->
+                 <div class="booking-card">
+                     <h5><i class="bi bi-car-front me-2 text-primary"></i>1. Select Car</h5>
+                     <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Choose Vehicle *</label>
+                            <select class="form-select" id="carSelect" name="car" required>
+                                <option value="">-- Select a car --</option>
+                            </select>
+                            {% if booking_form.car.errors %}
+                            <div class="invalid-feedback d-block">{{ booking_form.car.errors }}</div>
+                            {% endif %}
+                        </div>
+                         <div class="col-md-6">
+                             <label class="form-label">Transmission Type</label>
+                             <input type="text" class="form-control" id="transmissionType" readonly>
+                         </div>
+                     </div>
+
+                     <!-- Selected Car Details -->
+                     <div id="selectedCarDetails" class="mt-3" style="display: none;">
+                         <div class="row">
+                             <div class="col-md-4">
+                                 <img id="carImage" src="" alt="Selected Car" class="car-thumbnail">
+                             </div>
+                             <div class="col-md-8">
+                                 <h4 id="carName"></h4>
+                                 <div class="mb-2">
+                                     <span class="badge-transmission me-2" id="carTransmission"></span>
+                                     <span class="badge-fuel" id="carFuel"></span>
+                                     <span class="badge bg-secondary ms-2" id="carSeats"></span>
+                                 </div>
+                                 <div class="price-tag" id="carPrice"></div>
+                                 <p class="text-muted small mt-2" id="carDescription"></p>
+                             </div>
+                         </div>
+                     </div>
+                  </div>
+
+                  <!-- Step 2: Rental Period -->
+                 <div class="booking-card">
+                     <h5><i class="bi bi-calendar3 me-2 text-primary"></i>2. Rental Period</h5>
+                     <div class="row g-3">
+                         <div class="col-md-4">
+                             {{ booking_form.pickup_date.label_tag }}
+                             {{ booking_form.pickup_date }}
+                             {% if booking_form.pickup_date.errors %}
+                             <div class="invalid-feedback d-block">{{ booking_form.pickup_date.errors }}</div>
+                             {% endif %}
+                         </div>
+                         <div class="col-md-4">
+                             {{ booking_form.dropoff_date.label_tag }}
+                             {{ booking_form.dropoff_date }}
+                             {% if booking_form.dropoff_date.errors %}
+                             <div class="invalid-feedback d-block">{{ booking_form.dropoff_date.errors }}</div>
+                             {% endif %}
+                         </div>
+                         <div class="col-md-4">
+                             <label class="form-label">Number of Days</label>
+                             <input type="text" class="form-control" id="rentalDays" readonly value="0 days">
+                         </div>
+                     </div>
+                 </div>
+
+                <!-- Step 3: Locations -->
+                <div class="booking-card">
+                    <h5><i class="bi bi-geo-alt me-2 text-primary"></i>3. Locations</h5>
+                    <div class="row g-3">
+                        <!-- Pick-up Location -->
+                        <div class="col-md-6">
+                            <label class="form-label">Pick-up Location *</label>
+                            <div class="row g-2">
+                                <div class="col-12">
+                                <select class="form-select" id="pickupDivision" name="pickup_division" required>
+                                    <option value="">-- Select Division --</option>
+                                </select>
+                                </div>
+                                <div class="col-12">
+                                    <select class="form-select" id="pickupDistrict" name="pickup_district" required disabled>
+                                        <option value="">-- Select District --</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <select class="form-select" id="pickupUpazila" name="pickup_upazila" required disabled>
+                                        <option value="">-- Select Area --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Drop-off Location -->
+                        <div class="col-md-6">
+                            <label class="form-label">Drop-off Location *</label>
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <select class="form-select" id="dropoffDivision" name="dropoff_division" required>
+                                        <option value="">-- Select Division --</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <select class="form-select" id="dropoffDistrict" name="dropoff_district" required disabled>
+                                        <option value="">-- Select District --</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <select class="form-select" id="dropoffUpazila" name="dropoff_upazila" required disabled>
+                                        <option value="">-- Select Area --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Customer Info -->
+                <div class="booking-card">
+                    <h5><i class="bi bi-person-circle me-2 text-primary"></i>4. Your Information</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            {{ booking_form.customer_name.label_tag }}
+                            {{ booking_form.customer_name }}
+                            {% if booking_form.customer_name.errors %}
+                            <div class="invalid-feedback d-block">{{ booking_form.customer_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {{ booking_form.customer_email.label_tag }}
+                            {{ booking_form.customer_email }}
+                            {% if booking_form.customer_email.errors %}
+                            <div class="invalid-feedback d-block">{{ booking_form.customer_email.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {{ booking_form.customer_phone.label_tag }}
+                            {{ booking_form.customer_phone }}
+                            {% if booking_form.customer_phone.errors %}
+                            <div class="invalid-feedback d-block">{{ booking_form.customer_phone.errors }}</div>
+                            {% endif %}
+                        </div>
+                         <div class="col-md-6">
+                             {{ booking_form.nid_passport.label_tag }}
+                             {{ booking_form.nid_passport }}
+                             {% if booking_form.nid_passport.errors %}
+                             <div class="invalid-feedback d-block">{{ booking_form.nid_passport.errors }}</div>
+                             {% endif %}
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Price Summary -->
+                <div class="booking-card">
+                    <h5><i class="bi bi-cash-stack me-2 text-primary"></i>5. Price Summary</h5>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="summary-box">
+                                <div class="summary-row">
+                                    <span>Selected Car:</span>
+                                    <span id="selectedCarName">-</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Daily Rate:</span>
+                                    <span id="dailyRateDisplay">৳0</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Rental Duration:</span>
+                                    <span id="daysDisplay">0 days</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotalDisplay">৳0</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Discount:</span>
+                                    <span class="text-success" id="discountDisplay">-৳0</span>
+                                </div>
+                                <div class="summary-row summary-total">
+                                    <span><strong>Total Payable:</strong></span>
+                                    <span class="text-primary" id="totalDisplay">৳0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box mb-3">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <strong>Discounts:</strong><br>
+                                10% off for 7+ days<br>
+                                20% off for 30+ days
+                            </div>
+                            <div class="alert alert-success mb-0">
+                                <i class="bi bi-shield-check me-2"></i>
+                                <small>Insurance & roadside assistance included</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center mb-5">
+                    <button type="submit" class="btn btn-primary btn-lg px-5" id="submitBtn" disabled>
+                        <i class="bi bi-check-circle me-2"></i>Confirm Booking
+                    </button>
+                    <p class="text-muted mt-2">
+                        <small>By booking, you agree to our <a href="{% url 'pages:terms' %}">Terms</a> and <a href="{% url 'pages:privacy' %}">Privacy Policy</a></small>
+                    </p>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+     <!-- Confirmation Modal -->
+     <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+                 <div class="modal-header bg-success text-white">
+                     <h5 class="modal-title" id="confirmationModalLabel"><i class="bi bi-check-circle me-2"></i>Booking
+                         Confirmed!</h5>
+                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                         aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body text-center">
+                     <i class="bi bi-clipboard-check display-1 text-success mb-3"></i>
+                     <h5>Your booking is confirmed!</h5>
+                     <p class="text-muted">Reference: <strong id="bookingRef" class="text-primary"></strong></p>
+                     <p class="small">We'll contact you shortly to confirm details.</p>
+
+                     <!-- Action Buttons -->
+                     <div class="mt-4" id="invoiceDownloadContainer" style="display: none;">
+                         <a href="invoice.html?ref=" id="viewInvoiceLink" class="btn btn-outline-primary btn-lg px-4 me-2"
+                             target="_blank">
+                             <i class="bi bi-eye me-2"></i>View Invoice
+                         </a>
+                         <button type="button" class="btn btn-primary btn-lg px-4" id="downloadInvoiceBtn">
+                             <i class="bi bi-download me-2"></i>Download PDF
+                         </button>
+                     </div>
+                 </div>
+                 <div class="modal-footer justify-content-center">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a href="{% url 'pages:home' %}" class="btn btn-primary">Back to Home</a>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h4 class="mb-3"><i class="bi bi-car-front-fill me-2"></i>SSL Rent a Car BD</h4>
+                    <p>Your trusted car rental partner in Bangladesh. Quality vehicles, competitive prices, and
+                        exceptional service.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-whatsapp fs-5"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'pages:home' %}" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="{% url 'pages:fleet' %}" class="text-muted text-decoration-none">Our Fleet</a></li>
+                        <li class="mb-2"><a href="{% url 'pages:booking' %}" class="text-muted text-decoration-none">Book Now</a></li>
+                        <li class="mb-2"><a href="{% url 'pages:about' %}" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="{% url 'pages:contact' %}" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3">Popular Cars</h6>
+                     <ul class="list-unstyled">
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 1 %}" class="text-muted text-decoration-none">Toyota Corolla</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 2 %}" class="text-muted text-decoration-none">Honda Civic</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 3 %}" class="text-muted text-decoration-none">Mitsubishi Pajero</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 4 %}" class="text-muted text-decoration-none">Nissan X-Trail</a></li>
+                     </ul>
+                </div>
+                 <div class="col-lg-3">
+                     <h6 class="mb-3">Contact Info</h6>
+                     <ul class="list-unstyled text-muted">
+                         <li class="mb-2"><i class="bi bi-telephone me-2"></i>{{ site_settings.phone_primary|default:'+880 1849448321' }}</li>
+                         <li class="mb-2"><i class="bi bi-envelope me-2"></i>{{ site_settings.email_primary|default:'info@sslrentacarbd.com' }}</li>
+                         <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>{{ site_settings.address|default:'House 123, Road 45, Dhanmondi, Dhaka' }}</li>
+                         <li class="mb-2"><i class="bi bi-clock me-2"></i>24/7 Customer Support</li>
+                     </ul>
+                 </div>
+            </div>
+            <hr class="my-4">
+             <div class="text-center pb-0">
+                 <p class="mb-0 text-muted">&copy; {{ site_settings.copyright_year|default:'2026' }} {{ site_settings.copyright_text|default:'SSL Rent a Car BD. All rights reserved.' }} | <a href="{% url 'pages:terms' %}" class="text-muted">Terms of Service</a> | <a href="{% url 'pages:privacy' %}" class="text-muted">Privacy Policy</a></p>
+             </div>
+        </div>
+    </footer>
+
+     <!-- Payment Gateway Showcase -->
+     <div class="payment-gateway-showcase" style="background: #f8f9fa; padding: 30px 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+         <h4 style="margin-bottom: 20px; color: #333; font-weight: 700;">We Accept</h4>
+         <div style="display: flex; flex-direction: column; align-items: center; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px 0;">
+             <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px;">
+                  {% for method in payment_methods %}
+                  <img src="{{ method.get_icon_url }}" alt="{{ method.name }}" width="90" height="56" style="object-fit: contain;">
+                 {% empty %}
+                 <img src="{% static 'images/payment/bkash.svg' %}" alt="bKash" width="90" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/nagad.svg' %}" alt="Nagad" width="90" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/rocket.svg' %}" alt="Rocket" width="90" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/sslcommerz.svg' %}" alt="SSLCommerz" width="100" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/visa-mastercard.svg' %}" alt="Visa Mastercard" width="130" height="56" style="object-fit: contain;">
+                 {% endfor %}
+             </div>
+         </div>
+         <p style="margin-top: 15px; font-size: 12px; color: #666;">Secure payments powered by SSLCommerz</p>
+     </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4 d-none scroll-btn">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+     <!-- Bootstrap JS Bundle -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+     <!-- QRCode.js for generating QR codes -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+     <!-- html2pdf.js for PDF generation -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+       <!-- Custom JS -->
+       <script src="{% static 'js/main.js' %}"></script>
+       <script>
+           // Car data from Django
+           const carsData = [
+               {% for car in cars %}
+               {
+                   id: {{ car.id }},
+                   name: "{{ car.name }}",
+                   slug: "{{ car.slug }}",
+                   category: "{{ car.category }}",
+                   priceDaily: {{ car.price_daily }},
+                   priceWeekly: {{ car.price_weekly }},
+                   priceMonthly: {{ car.price_monthly }},
+                   images: ["{{ car.get_primary_image }}"],
+                   specs: {
+                       make: "",
+                       model: "",
+                       year: 2023,
+                       fuelType: "{{ car.get_fuel_type_display }}",
+                       transmission: "{{ car.get_transmission_display }}",
+                       seats: {{ car.seats }},
+                       luggage: {{ car.luggage }},
+                        ac: "{% if car.ac %}Yes{% else %}No{% endif %}",
+                       engine: "{{ car.engine|default:'' }}",
+                       mileage: "{{ car.mileage|default:'' }}"
+                   },
+                   features: {{ car.features|safe }},
+                   description: "{{ car.description|escapejs }}",
+                   available: {{ car.available|lower }},
+                   featured: {{ car.featured|lower }}
+               }{% if not forloop.last %},{% endif %}
+               {% endfor %}
+           ];
+       </script>
+       <script src="{% static 'js/booking.js' %}"></script>
+
+     <!-- Hidden Invoice Template for PDF Generation -->
+     <div id="invoiceTemplate" style="display: none; padding: 40px; font-family: 'Arial', sans-serif; color: #333; line-height: 1.6;">
+         <div style="max-width: 800px; margin: 0 auto; border: 2px solid #667eea; border-radius: 12px; padding: 30px; background: #fff;">
+             <!-- Invoice Header -->
+             <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #667eea;">
+                 <h1 style="color: #667eea; margin: 0; font-size: 28px; font-weight: 800;">SSL RENT A CAR BD</h1>
+                 <p style="margin: 5px 0 0; color: #666;">Premium Car Rental Services in Bangladesh</p>
+                 <p style="margin: 5px 0 0; color: #999; font-size: 14px;">House 123, Road 45, Dhanmondi, Dhaka - 1209</p>
+                 <p style="margin: 5px 0 0; color: #999; font-size: 14px;">+880 1849448321 | info@sslrentacarbd.com</p>
+             </div>
+
+             <!-- Invoice Title -->
+             <div style="text-align: center; margin: 30px 0;">
+                 <h2 style="color: #333; margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 2px;">Booking Invoice</h2>
+                 <p style="margin: 10px 0 0; color: #666;">Generated on: <span id="invoiceDate"></span></p>
+             </div>
+
+             <!-- Booking Reference -->
+             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 25px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
+                 <h3 style="margin: 0; font-size: 20px;">Booking Reference</h3>
+                 <p style="margin: 5px 0 0; font-size: 28px; font-weight: 700; letter-spacing: 3px;" id="invoiceRef"></p>
+             </div>
+
+             <!-- Customer & Booking Details -->
+             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                 <div>
+                     <h4 style="color: #667eea; margin: 0 0 15px; font-size: 18px; border-bottom: 2px solid #667eea; padding-bottom: 5px;">Customer Information</h4>
+                     <p style="margin: 8px 0;"><strong>Name:</strong> <span id="invoiceName"></span></p>
+                     <p style="margin: 8px 0;"><strong>Email:</strong> <span id="invoiceEmail"></span></p>
+                     <p style="margin: 8px 0;"><strong>Phone:</strong> <span id="invoicePhone"></span></p>
+                     <p style="margin: 8px 0;"><strong>NID/Passport:</strong> <span id="invoiceNID"></span></p>
+                 </div>
+                 <div>
+                     <h4 style="color: #667eea; margin: 0 0 15px; font-size: 18px; border-bottom: 2px solid #667eea; padding-bottom: 5px;">Rental Details</h4>
+                     <p style="margin: 8px 0;"><strong>Pick-up:</strong> <span id="invoicePickupDate"></span></p>
+                     <p style="margin: 8px 0;"><strong>Drop-off:</strong> <span id="invoiceDropoffDate"></span></p>
+                     <p style="margin: 8px 0;"><strong>Duration:</strong> <span id="invoiceDays"></span></p>
+                     <p style="margin: 8px 0;"><strong>Pick-up Location:</strong> <span id="invoicePickupLocation"></span></p>
+                     <p style="margin: 8px 0;"><strong>Drop-off Location:</strong> <span id="invoiceDropoffLocation"></span></p>
+                 </div>
+             </div>
+
+             <!-- Car Details -->
+             <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                 <h4 style="color: #667eea; margin: 0 0 15px; font-size: 18px; border-bottom: 2px solid #667eea; padding-bottom: 5px;">Vehicle Information</h4>
+                 <div style="display: grid; grid-template-columns: 200px 1fr; gap: 15px; align-items: center;">
+                     <div>
+                         <p style="margin: 0;"><strong>Car:</strong> <span id="invoiceCarName"></span></p>
+                         <p style="margin: 8px 0;"><strong>Transmission:</strong> <span id="invoiceTransmission"></span></p>
+                         <p style="margin: 8px 0;"><strong>Fuel Type:</strong> <span id="invoiceFuel"></span></p>
+                         <p style="margin: 8px 0;"><strong>Seats:</strong> <span id="invoiceSeats"></span></p>
+                     </div>
+                     <div style="text-align: right;">
+                         <p style="margin: 0; font-size: 40px; color: #667eea; font-weight: 700;" id="invoiceCarPrice"></p>
+                         <p style="margin: 5px 0 0; color: #666;">per day</p>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Price Breakdown -->
+             <div style="background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                 <h4 style="color: #667eea; margin: 0 0 15px; font-size: 18px; border-bottom: 2px solid #667eea; padding-bottom: 5px;">Price Summary</h4>
+                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                     <span>Daily Rate × <span id="invoiceDayCount">0</span> day(s):</span>
+                     <span style="font-weight: 600;" id="invoiceSubtotal"></span>
+                 </div>
+                 <div id="discountRow" style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                     <span>Discount:</span>
+                     <span style="color: #28a745; font-weight: 600;" id="invoiceDiscount"></span>
+                 </div>
+                 <div style="display: flex; justify-content: space-between; padding-top: 15px; border-top: 3px solid #667eea; margin-top: 15px;">
+                     <span style="font-size: 20px; font-weight: 700;">Total Payable:</span>
+                     <span style="font-size: 24px; color: #667eea; font-weight: 800;" id="invoiceTotal"></span>
+                 </div>
+             </div>
+
+             <!-- QR Code & Notes -->
+             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 2px dashed #ddd;">
+                 <div style="flex: 1;">
+                     <h4 style="color: #667eea; margin: 0 0 10px; font-size: 16px;">Important Notes:</h4>
+                     <ul style="margin: 0; padding-left: 20px; color: #666; font-size: 14px;">
+                         <li>Please present this invoice at the time of pickup</li>
+                         <li>Bring your NID/Passport for verification</li>
+                         <li>Fuel is included in the rental price</li>
+                         <li>Roadside assistance: +880 1849448321</li>
+                     </ul>
+                 </div>
+                 <div style="text-align: center; margin-left: 30px;">
+                     <p style="margin: 0 0 10px; color: #666; font-size: 14px;">Scan for Booking Reference</p>
+                     <div id="invoiceQRCode" style="background: #fff; padding: 10px; border-radius: 8px; display: inline-block;"></div>
+                 </div>
+             </div>
+
+             <!-- Footer -->
+             <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #667eea; color: #999; font-size: 12px;">
+                 <p style="margin: 0;">Thank you for choosing SSL Rent a Car BD. Have a safe journey!</p>
+                 <p style="margin: 5px 0 0;">© <span id="invoiceYear"></span> SSL Rent a Car BD. All rights reserved.</p>
+             </div>
+         </div>
+     </div>
+</body>
+</html>

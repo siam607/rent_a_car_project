@@ -1,0 +1,259 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: #fff;
+        }
+        .invoice-container {
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 2cm;
+            border: 1px solid #e2e8f0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid #667eea;
+            margin-bottom: 2rem;
+        }
+        .logo-section h1 {
+            color: #667eea;
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .logo-section p {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin: 0.5rem 0 0;
+        }
+        .invoice-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .invoice-badge h2 {
+            margin: 0;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+        }
+        .invoice-badge .number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+        .bill-to-section {
+            margin-bottom: 2rem;
+        }
+        .bill-to-section h3 {
+            color: #1e293b;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .bill-to-section p {
+            margin: 0.25rem 0;
+            color: #475569;
+        }
+        .bill-to-section strong {
+            color: #1e293b;
+        }
+        .car-details {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+        .car-details h3 {
+            margin: 0 0 1rem;
+            color: #1e293b;
+            font-size: 1.1rem;
+        }
+        .car-details .spec {
+            display: inline-block;
+            margin-right: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .car-details .spec i {
+            color: #667eea;
+            margin-right: 0.25rem;
+        }
+        .car-details .price {
+            float: right;
+            color: #667eea;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .summary-table th {
+            text-align: left;
+            padding: 1rem;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+        }
+        .summary-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+        .summary-table .text-end {
+            text-align: right;
+        }
+        .summary-table .total-row {
+            background: #f8fafc;
+            font-weight: 700;
+        }
+        .summary-table .total-row td {
+            font-size: 1.1rem;
+            color: #667eea;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .footer-section h4 {
+            margin: 0 0 0.5rem;
+            color: #1e293b;
+            font-size: 0.875rem;
+        }
+        .footer-section p {
+            margin: 0.25rem 0;
+        }
+        .badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-section">
+                <h1>SSL Rent a Car BD</h1>
+                <p>Premium Car Rental Services in Bangladesh</p>
+                <p><i class="bi bi-telephone"></i> +880 1849448321 | info@sslrentacarbd.com</p>
+                <p>House 123, Road 45, Dhanmondi, Dhaka - 1209</p>
+            </div>
+            <div class="invoice-badge">
+                <h2>Invoice</h2>
+                <div class="number">{{ booking.booking_reference }}</div>
+            </div>
+        </div>
+
+        <!-- Bill To -->
+        <div class="bill-to-section">
+            <h3>Bill To</h3>
+            <p><strong>{{ booking.customer_name }}</strong></p>
+            <p>{{ booking.customer_email }}</p>
+            <p>{{ booking.customer_phone }}</p>
+            <p>{{ booking.pickup_location }}</p>
+        </div>
+
+        <!-- Car Details -->
+        <div class="car-details">
+            <h3>Vehicle: {{ car.name }}</h3>
+            <span class="price">৳{{ car.price_daily|floatformat:0 }}/day</span>
+            <div class="spec"><i class="bi bi-speedometer2"></i> {{ car.get_transmission_display }}</div>
+            <div class="spec"><i class="bi bi-fuel-pump"></i> {{ car.get_fuel_type_display }}</div>
+            <div class="spec"><i class="bi bi-people"></i> {{ car.seats }} Seats</div>
+            <div class="spec"><i class="bi bi-suitcase"></i> {{ car.luggage }} Luggage</div>
+            <div class="spec"><i class="bi bi-calendar3"></i> {{ booking.pickup_date|date:"M d, Y" }} - {{ booking.dropoff_date|date:"M d, Y" }}</div>
+            <div class="spec"><i class="bi bi-geo-alt"></i> Pickup: {{ booking.pickup_location }}</div>
+        </div>
+
+        <!-- Summary -->
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th class="text-end">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rental Duration: {{ booking.rental_days }} day(s) × ৳{{ booking.daily_rate|floatformat:0 }}</td>
+                    <td class="text-end">৳{{ booking.subtotal|floatformat:0 }}</td>
+                </tr>
+                {% if booking.discount > 0 %}
+                <tr>
+                    <td>Discount ({{ booking.discount|floatformat:0 }}%)</td>
+                    <td class="text-end">-৳{{ booking.discount_amount|floatformat:0 }}</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td>Total Amount</td>
+                    <td class="text-end">৳{{ booking.total|floatformat:0 }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-section">
+                <h4>SSL Rent a Car BD</h4>
+                <p>Thank you for choosing us!</p>
+                <p>Booking Ref: <strong>{{ booking.booking_reference }}</strong></p>
+                <div class="badges">
+                    <span class="badge badge-success">Confirmed</span>
+                    <span class="badge" style="background: #dbeafe; color: #1e40af;">Prepaid</span>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>+880 1849448321</p>
+                <p>info@sslrentacarbd.com</p>
+                <p>www.sslrentacarbd.com</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

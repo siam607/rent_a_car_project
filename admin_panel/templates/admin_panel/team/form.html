@@ -1,0 +1,97 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-gradient text-white py-3" style="background: linear-gradient(135deg, #13B497 0%, #15D38D 100%);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-person-plus me-2"></i>{{ action }} Team Member
+                    </h5>
+                    <span class="badge bg-light text-dark px-3 py-2">
+                        <i class="bi bi-pencil me-1"></i>{{ action }} Mode
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label for="id_name" class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_position" class="form-label fw-semibold">Position/Role <span class="text-danger">*</span></label>
+                        {{ form.position }}
+                        <small class="text-muted d-block mt-1">e.g., "CEO & Founder", "Operations Manager"</small>
+                        {% if form.position.errors %}
+                            <div class="text-danger small mt-1">{{ form.position.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_bio" class="form-label fw-semibold">Biography</label>
+                        {{ form.bio }}
+                        <small class="text-muted d-block mt-1">Brief professional background</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Profile Photo</label>
+                        {% if member and member.image %}
+                            <div class="mb-3 p-2 bg-light rounded-3 text-center" style="max-width: 150px;">
+                                <img src="{{ member.image.url }}" alt="{{ member.name }}" class="img-fluid rounded-circle" style="width: 120px; height: 120px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                                <p class="small text-muted mt-2 mb-0">Current photo</p>
+                            </div>
+                        {% endif %}
+                        {{ form.image }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-info-circle me-1"></i> Recommended: 200x200px square image
+                        </small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_image_url" class="form-label fw-semibold">Or External Photo URL</label>
+                        {{ form.image_url }}
+                        <small class="text-muted d-block mt-1">Link to externally hosted image</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_order" class="form-label fw-semibold">Display Order</label>
+                        {{ form.order }}
+                        <small class="text-muted d-block mt-1">Lower numbers appear first on the About page</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            {{ form.is_active }}
+                            <label class="form-check-label ms-2" for="id_is_active">
+                                <strong>Active</strong>
+                                <small class="d-block text-muted">Show this team member on the website</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'admin_panel:team_list' %}" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle me-2"></i>Save Team Member
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

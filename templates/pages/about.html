@@ -1,0 +1,329 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about SSL Rent a Car BD, Bangladesh's trusted car rental service. Discover our mission, values, and commitment to excellence.">
+    <title>About Us - SSL Rent a Car BD | Premium Car Rental</title>
+
+    <!-- Google Fonts - Typography Heaven -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-about">
+         <div class="container">
+                  <a class="navbar-brand" href="{% url 'pages:home' %}">
+                     <i class="bi bi-car-front-fill me-2 text-primary"></i>
+                     <span class="font-accent">SSL</span>Rent a Car
+                 </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                 <ul class="navbar-nav ms-auto">
+                     <li class="nav-item"><a class="nav-link" href="{% url 'pages:home' %}">Home</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'pages:fleet' %}">Fleet</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'pages:booking' %}">Booking</a></li>
+                     <li class="nav-item"><a class="nav-link active" href="{% url 'pages:about' %}">About</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'pages:contact' %}">Contact</a></li>
+                 </ul>
+                <a href="{% url 'pages:booking' %}" class="btn btn-primary ms-lg-3 mt-3 mt-lg-0">
+                    <i class="bi bi-calendar-check me-2"></i>Book Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="{% url 'pages:home' %}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                </ol>
+            </nav>
+            <h1 class="mt-3">About SSL Rent a Car BD</h1>
+            <p class="lead">Your trusted partner for car rentals across Bangladesh</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-content">
+        <div class="container">
+            <!-- Our Story -->
+            <div class="row g-5 mb-5 align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                     <span class="dancing-lg text-primary">Our Story</span>
+                    <h2 class="section-title mt-2">Driven by Excellence</h2>
+                    <p class="text-muted mb-3">Founded in 2024, SSL Rent a Car BD began with a simple mission: to provide reliable, affordable, and safe car rental services to travelers across Bangladesh. What started as a small fleet of 5 vehicles has grown into one of the country's most trusted car rental companies.</p>
+                    <p class="text-muted mb-3">Over the years, we've served thousands of satisfied customers - from tourists exploring the beauty of Cox's Bazar to business travelers navigating Dhaka's bustling streets. Our commitment to quality service, well-maintained vehicles, and transparent pricing has earned us a reputation as the go-to car rental service in Bangladesh.</p>
+                    <p class="text-muted">Today, we operate in major cities including Dhaka, Chittagong, Sylhet, and Cox's Bazar, with plans to expand our reach to serve more communities across the country.</p>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80" 
+                         alt="SSL Rent a Car BD Team" 
+                         class="img-fluid rounded-4 shadow-lg">
+                </div>
+            </div>
+
+            <!-- Why Choose Us -->
+            <div class="text-center mb-5" data-aos="fade-up">
+                 <span class="dancing-md text-danger">Why Choose Us</span>
+                <h2 class="section-title mt-2">We Go The Extra Mile</h2>
+                <p class="section-subtitle">We go the extra mile to ensure your journey is comfortable and stress-free</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="about-feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h5>Safe & Insured</h5>
+                        <p class="text-muted">All our vehicles are comprehensively insured and undergo rigorous safety inspections before every rental.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="about-feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                        <h5>No Hidden Charges</h5>
+                        <p class="text-muted">Transparent pricing with all fees disclosed upfront. What you see is what you pay.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="about-feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-gear"></i>
+                        </div>
+                        <h5>Well-Maintained Fleet</h5>
+                        <p class="text-muted">Regular servicing ensures our cars are in excellent condition, clean, and reliable.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="about-feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <h5>24/7 Support</h5>
+                        <p class="text-muted">Round-the-clock customer service and roadside assistance for your peace of mind.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="about-feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <h5>Multiple Locations</h5>
+                        <p class="text-muted">Convenient pickup and drop-off points across Dhaka, Chittagong, Sylhet, and Cox's Bazar.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="about-feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-percent"></i>
+                        </div>
+                        <h5>Flexible Discounts</h5>
+                        <p class="text-muted">Enjoy discounts for weekly and monthly rentals, plus special offers for loyal customers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Our Values -->
+            <div class="row g-4 mb-5">
+                <div class="col-12 text-center" data-aos="fade-up">
+                     <span class="dancing-lg text-primary">Our Core Values</span>
+                    <h2 class="section-title mt-2">What We Stand For</h2>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="value-card">
+                        <i class="bi bi-award-fill text-primary"></i>
+                        <h5>Integrity</h5>
+                        <p class="text-muted">We believe in honest, transparent transactions with no hidden fees or surprises.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="value-card">
+                        <i class="bi bi-heart-fill text-danger"></i>
+                        <h5>Customer First</h5>
+                        <p class="text-muted">Your satisfaction is our top priority. We tailor our services to meet your needs.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="value-card">
+                        <i class="bi bi-lightning-fill text-warning"></i>
+                        <h5>Reliability</h5>
+                        <p class="text-muted">Count on us for punctual service, well-maintained vehicles, and dependable support.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="row g-4 mb-5">
+                <div class="col-12 text-center" data-aos="fade-up">
+                     <span class="dancing-md text-brand-pinkred">Our Leadership</span>
+                    <h2 class="section-title mt-2">Meet Our Team</h2>
+                    <p class="section-subtitle">The faces behind SSL Rent a Car BD</p>
+                </div>
+                
+                {% for member in team_members %}
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            {% if member.get_primary_image %}
+                                <img src="{{ member.get_primary_image }}" alt="{{ member.name }}" class="img-fluid rounded-circle w-100 h-100 object-fit-cover">
+                            {% else %}
+                                <i class="bi bi-person-circle"></i>
+                            {% endif %}
+                        </div>
+                        <h5>{{ member.name }}</h5>
+                        <p class="text-muted mb-3">{{ member.position }}</p>
+                        <p class="small mb-4">{{ member.bio|safe }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center text-muted">
+                    <p>No team members yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section text-center" data-aos="fade-up">
+                <div class="row">
+                    {% for stat in site_statistics %}
+                    <div class="col-md-3">
+                        <div class="display-4 fw-bold text-white mb-2">{{ stat.value }}</div>
+                        <p class="lead text-white-50">{{ stat.label }}</p>
+                    </div>
+                    {% empty %}
+                    <!-- Default stats fallback -->
+                    <div class="col-md-3">
+                        <div class="display-4 fw-bold text-white mb-2">50+</div>
+                        <p class="lead text-white-50">Vehicles</p>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="display-4 fw-bold text-white mb-2">10K+</div>
+                        <p class="lead text-white-50">Happy Customers</p>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="display-4 fw-bold text-white mb-2">5</div>
+                        <p class="lead text-white-50">Locations</p>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="display-4 fw-bold text-white mb-2">9+</div>
+                        <p class="lead text-white-50">Years Experience</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+     <footer class="footer footer-about py-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                     <h4 class="text-white mb-3">
+                         <i class="bi bi-car-front-fill me-2"></i>
+                         SSL <span class="font-accent">Rent a Car</span>
+                     </h4>
+                      <p>{{ site_settings.site_description|default:'Your trusted car rental partner in Bangladesh. Quality vehicles, competitive prices, and exceptional service.' }}</p>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="text-white mb-3">Quick Links</h6>
+                     <ul class="list-unstyled">
+                         <li class="mb-2"><a href="{% url 'pages:home' %}" class="text-muted text-decoration-none">Home</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:fleet' %}" class="text-muted text-decoration-none">Our Fleet</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:booking' %}" class="text-muted text-decoration-none">Book Now</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:about' %}" class="text-muted text-decoration-none">About Us</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:contact' %}" class="text-muted text-decoration-none">Contact</a></li>
+                     </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-white mb-3">Popular Cars</h6>
+                     <ul class="list-unstyled">
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 1 %}" class="text-muted text-decoration-none">Toyota Corolla</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 2 %}" class="text-muted text-decoration-none">Honda Civic</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 3 %}" class="text-muted text-decoration-none">Mitsubishi Pajero</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:car_details' 4 %}" class="text-muted text-decoration-none">Nissan X-Trail</a></li>
+                     </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white mb-3">Contact Info</h6>
+                     <ul class="list-unstyled text-muted">
+                         <li class="mb-2"><i class="bi bi-telephone me-2"></i>{{ site_settings.phone_primary|default:'+880 1849448321' }}</li>
+                         <li class="mb-2"><i class="bi bi-envelope me-2"></i>{{ site_settings.email_primary|default:'info@sslrentacarbd.com' }}</li>
+                         <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>{{ site_settings.address|default:'House 123, Road 45, Dhanmondi, Dhaka' }}</li>
+                         <li class="mb-2"><i class="bi bi-clock me-2"></i>24/7 Customer Support</li>
+                     </ul>
+                </div>
+            </div>
+             <hr class="my-4 hr-light">
+            <div class="text-center pb-0">
+                <p class="mb-0 text-muted">&copy; {{ site_settings.copyright_year|default:'2026' }} {{ site_settings.copyright_text|default:'SSL Rent a Car BD. All rights reserved.' }} | <a href="{% url 'pages:terms' %}" class="text-muted">Terms of Service</a> | <a href="{% url 'pages:privacy' %}" class="text-muted">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Payment Gateway Showcase -->
+     <div class="payment-gateway-showcase" style="background: #f8f9fa; padding: 30px 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+         <h4 style="margin-bottom: 20px; color: #333; font-weight: 700;">We Accept</h4>
+         <div style="display: flex; flex-direction: column; align-items: center; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px 0;">
+             <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px;">
+                  {% for method in payment_methods %}
+                  <img src="{{ method.get_icon_url }}" alt="{{ method.name }}" width="90" height="56" style="object-fit: contain;">
+                 {% empty %}
+                 <!-- Fallback payment icons -->
+                 <img src="{% static 'images/payment/bkash.svg' %}" alt="bKash" width="90" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/nagad.svg' %}" alt="Nagad" width="90" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/rocket.svg' %}" alt="Rocket" width="90" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/sslcommerz.svg' %}" alt="SSLCommerz" width="100" height="56" style="object-fit: contain;">
+                 <img src="{% static 'images/payment/visa-mastercard.svg' %}" alt="Visa Mastercard" width="130" height="56" style="object-fit: contain;">
+                 {% endfor %}
+             </div>
+         </div>
+         <p style="margin-top: 15px; font-size: 12px; color: #666;">Secure payments powered by SSLCommerz</p>
+     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+            once: true,
+            offset: 100
+        });
+
+        // Load saved social IDs on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Social media functionality removed
+        });
+    </script>
+</body>
+</html>

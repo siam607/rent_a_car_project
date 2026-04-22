@@ -1,0 +1,394 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Welcome Banner -->
+<div class="card border-0 shadow-sm mb-4 overflow-hidden">
+    <div class="card-body p-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; overflow: hidden;">
+        <div class="position-relative" style="z-index: 2;">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="text-white">
+                    <h2 class="mb-2 fw-bold display-6" style="font-size: 1.75rem;">Welcome back!</h2>
+                    <p class="mb-0 opacity-90">Here's what's happening with your car rental business today.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'admin_panel:car_create' %}" class="btn btn-light btn-sm px-3">
+                        <i class="bi bi-plus-circle me-1"></i> Add Car
+                    </a>
+                    <a href="{% url 'admin_panel:booking_list' %}" class="btn btn-outline-light btn-sm px-3">
+                        <i class="bi bi-calendar-check me-1"></i> View Bookings
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15; font-size: 8rem;">
+            <i class="bi bi-speedometer2"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Grid -->
+<div class="row g-4 mb-4">
+    <!-- Main Stats Row -->
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card fade-in">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="bi bi-car-front-fill"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ stats.total_cars }}</h3>
+                <p>Total Cars</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #13B497 0%, #15D38D 100%);">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ stats.available_cars }}</h3>
+                <p>Available</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #f6ad55 0%, #fda085 100%);">
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ stats.featured_cars }}</h3>
+                <p>Featured</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);">
+                <i class="bi bi-calendar-check-fill"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ stats.total_bookings }}</h3>
+                <p>Bookings</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Secondary Stats Row -->
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card fade-in" style="animation-delay: 0.4s;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ stats.pending_bookings }}</h3>
+                <p>Pending</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card fade-in" style="animation-delay: 0.5s;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="bi bi-envelope-fill"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ stats.total_inquiries }}</h3>
+                <p>Inquiries</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card fade-in" style="animation-delay: 0.6s;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #f6ad55 0%, #fda085 100%);">
+                <i class="bi bi-envelope-open"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ stats.unread_inquiries }}</h3>
+                <p>Unread</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <a href="{% url 'admin_panel:site_settings' %}" class="stat-card fade-in text-decoration-none" style="animation-delay: 0.7s;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);">
+                <i class="bi bi-gear-fill"></i>
+            </div>
+            <div class="stat-info">
+                <h3 style="color: #2d3748;">Site</h3>
+                <p style="color: #718096;">Settings</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row g-4">
+    <!-- Recent Bookings -->
+    <div class="col-lg-6">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-calendar-check me-2 text-primary"></i>Recent Bookings
+                    </h5>
+                    <small class="text-muted">Latest booking requests</small>
+                </div>
+                <a href="{% url 'admin_panel:booking_list' %}" class="btn btn-sm btn-outline-primary">
+                    View All <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body">
+                {% if stats.recent_bookings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Customer</th>
+                                    <th>Car</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in stats.recent_bookings %}
+                                <tr>
+                                    <td>
+                                        <code class="fs-6 text-primary">{{ booking.booking_reference }}</code>
+                                        <br><small class="text-muted">{{ booking.created_at|date:"M d" }}</small>
+                                    </td>
+                                    <td>
+                                        <strong>{{ booking.customer_name }}</strong><br>
+                                        <small class="text-muted">{{ booking.customer_phone }}</small>
+                                    </td>
+                                    <td>{{ booking.car.name }}</td>
+                                    <td>
+                                        <strong class="text-success">৳{{ booking.total|floatformat:"0"|intcomma }}</strong>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{% url 'admin_panel:booking_update_status' booking.id %}" class="d-inline booking-status-form">
+                                            {% csrf_token %}
+                                            <select name="status" class="form-select form-select-sm status-dropdown"
+                                                    onchange="this.form.submit()"
+                                                    style="width: 130px;"
+                                                    data-bs-toggle="tooltip"
+                                                    title="Change status">
+                                                <option value="pending" {% if booking.status == 'pending' %}selected{% endif %}>Pending</option>
+                                                <option value="confirmed" {% if booking.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                                                <option value="cancelled" {% if booking.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                                                <option value="completed" {% if booking.status == 'completed' %}selected{% endif %}>Completed</option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-calendar-x text-muted display-4 mb-3"></i>
+                        <p class="text-muted mb-0">No bookings yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Inquiries -->
+    <div class="col-lg-6">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-envelope me-2 text-primary"></i>Recent Inquiries
+                    </h5>
+                    <small class="text-muted">Latest customer messages</small>
+                </div>
+                <a href="{% url 'admin_panel:inquiry_list' %}" class="btn btn-sm btn-outline-primary">
+                    View All <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body">
+                {% if stats.recent_inquiries %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>From</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inquiry in stats.recent_inquiries %}
+                                <tr class="{% if not inquiry.is_read %}table-warning{% endif %}">
+                                    <td>
+                                        <strong>{{ inquiry.subject|truncatechars:25 }}</strong>
+                                    </td>
+                                    <td>
+                                        {{ inquiry.name }}<br>
+                                        <small class="text-muted">{{ inquiry.email|truncatechars:15 }}</small>
+                                    </td>
+                                    <td>
+                                        {{ inquiry.created_at|date:"M d" }}
+                                        <br><small class="text-muted">{{ inquiry.created_at|date:"H:i" }}</small>
+                                    </td>
+                                    <td>
+                                        {% if inquiry.is_read %}
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check-circle me-1"></i>Read
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-warning">
+                                                <i class="bi bi-envelope me-1"></i>New
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'admin_panel:inquiry_detail' inquiry.id %}" class="btn btn-sm btn-outline-secondary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-envelope-open text-muted display-4 mb-3"></i>
+                        <p class="text-muted mb-0">No inquiries yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Links Row -->
+<div class="row g-3 mt-2">
+    <div class="col-md-4">
+        <a href="{% url 'admin_panel:car_list' %}" class="card border-0 shadow-sm text-decoration-none text-dark h-100">
+            <div class="card-body d-flex align-items-center py-3">
+                <div class="stat-icon me-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 48px; height: 48px; min-width: 48px;">
+                    <i class="bi bi-car-front"></i>
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold">Manage Cars</h6>
+                    <small class="text-muted">Add, edit, or remove vehicles</small>
+                </div>
+                <i class="bi bi-chevron-right ms-auto text-muted"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a href="{% url 'admin_panel:booking_list' %}" class="card border-0 shadow-sm text-decoration-none text-dark h-100">
+            <div class="card-body d-flex align-items-center py-3">
+                <div class="stat-icon me-3" style="background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); width: 48px; height: 48px; min-width: 48px;">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold">Bookings</h6>
+                    <small class="text-muted">View and manage reservations</small>
+                </div>
+                <i class="bi bi-chevron-right ms-auto text-muted"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a href="{% url 'admin_panel:inquiry_list' %}" class="card border-0 shadow-sm text-decoration-none text-dark h-100">
+            <div class="card-body d-flex align-items-center py-3">
+                <div class="stat-icon me-3" style="background: linear-gradient(135deg, #13B497 0%, #15D38D 100%); width: 48px; height: 48px; min-width: 48px;">
+                    <i class="bi bi-envelope"></i>
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold">Inquiries</h6>
+                    <small class="text-muted">Customer contact messages</small>
+                </div>
+                <i class="bi bi-chevron-right ms-auto text-muted"></i>
+            </div>
+        </a>
+    </div>
+</div>
+
+<style>
+.fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.page-link {
+    color: #667eea;
+}
+
+.page-item.active .page-link {
+    background-color: #667eea;
+    border-color: #667eea;
+}
+
+.booking-status-form select {
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Animate stats on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+    });
+</script>
+{% endblock %}

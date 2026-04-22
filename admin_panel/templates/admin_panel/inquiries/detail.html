@@ -1,0 +1,157 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-info me-3" style="width: 48px; height: 48px; min-width: 48px;">
+                        <i class="bi bi-envelope-paper-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Inquiry Details</h5>
+                        <small class="text-muted">From: {{ inquiry.name }}</small>
+                    </div>
+                </div>
+                <span class="badge {% if inquiry.is_read %}bg-success{% else %}bg-warning text-dark{% endif %} px-3 py-2">
+                    <i class="bi bi-{% if inquiry.is_read %}check-circle{% else %}envelope{% endif %} me-2"></i>{{ inquiry.is_read|yesno:"Read,Unread" }}
+                </span>
+            </div>
+
+            <div class="card-body">
+                <!-- Customer Info Card -->
+                <div class="p-4 mb-4 bg-light rounded-3">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small text-uppercase fw-bold">From</label>
+                            <div class="fs-5 fw-bold">{{ inquiry.name }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small text-uppercase fw-bold">Email</label>
+                            <div>
+                                <a href="mailto:{{ inquiry.email }}" class="fs-6 text-decoration-none">
+                                    <i class="bi bi-envelope me-2"></i>{{ inquiry.email }}
+                                </a>
+                            </div>
+                        </div>
+                        {% if inquiry.phone %}
+                        <div class="col-md-6">
+                            <label class="text-muted small text-uppercase fw-bold">Phone</label>
+                            <div>
+                                <a href="tel:{{ inquiry.phone }}" class="fs-6 text-decoration-none">
+                                    <i class="bi bi-telephone me-2"></i>{{ inquiry.phone }}
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="col-md-6">
+                            <label class="text-muted small text-uppercase fw-bold">Received</label>
+                            <div class="fs-6">
+                                <i class="bi bi-clock me-2"></i>{{ inquiry.created_at|date:"F d, Y" }} at {{ inquiry.created_at|date:"H:i" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject -->
+                <div class="mb-4">
+                    <label class="text-muted small text-uppercase fw-bold">Subject</label>
+                    <h4 class="mb-0">{{ inquiry.subject }}</h4>
+                </div>
+
+                <!-- Message -->
+                <div class="mb-4">
+                    <label class="text-muted small text-uppercase fw-bold">Message</label>
+                    <div class="p-4 bg-white border rounded-3 fs-6" style="line-height: 1.7; white-space: pre-line;">
+                        {{ inquiry.message }}
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex flex-wrap gap-2 pt-3 border-top">
+                    <a href="mailto:{{ inquiry.email }}" class="btn btn-primary">
+                        <i class="bi bi-envelope me-2"></i>Reply via Email
+                    </a>
+                    {% if inquiry.phone %}
+                    <a href="https://wa.me/{{ inquiry.phone|cut:'+'|cut:' '|cut:'-'|cut:'('|cut:')' }}" class="btn btn-outline-success" target="_blank">
+                        <i class="bi bi-whatsapp me-2"></i>Send WhatsApp
+                    </a>
+                    <a href="tel:{{ inquiry.phone }}" class="btn btn-outline-primary">
+                        <i class="bi bi-telephone me-2"></i>Call Now
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'admin_panel:inquiry_list' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Inquiries
+                    </a>
+                    <form method="post" action="{% url 'admin_panel:inquiry_delete' inquiry.id %}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this inquiry? This action cannot be undone.');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i>Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Quick Actions -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h6 class="mb-0 fw-bold">
+                    <i class="bi bi-lightning me-2 text-primary"></i>Quick Actions
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="mailto:{{ inquiry.email }}" class="btn btn-primary">
+                        <i class="bi bi-envelope-fill me-2"></i>Compose Email
+                    </a>
+                    {% if inquiry.phone %}
+                    <a href="https://wa.me/{{ inquiry.phone|cut:'+'|cut:' '|cut:'-'|cut:'('|cut:')' }}" class="btn btn-outline-success" target="_blank">
+                        <i class="bi bi-whatsapp me-2"></i>Open WhatsApp
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Inquiry Summary -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3">
+                <h6 class="mb-0 fw-bold">
+                    <i class="bi bi-info-circle me-2 text-primary"></i>Summary
+                </h6>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td class="text-muted ps-0">Status</td>
+                        <td class="pe-0">
+                            <span class="badge {% if inquiry.is_read %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                {{ inquiry.is_read|yesno:"Read,Unread" }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted ps-0">Inquiry ID</td>
+                        <td class="pe-0 fw-bold">#{{ inquiry.id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted ps-0">Date</td>
+                        <td class="pe-0">{{ inquiry.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted ps-0">Time</td>
+                        <td class="pe-0">{{ inquiry.created_at|date:"H:i" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

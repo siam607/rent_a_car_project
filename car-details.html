@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View detailed specifications, pricing, and availability for this car. Book your rental today.">
+    <title>Car Details - Rent a Car Bangladesh | SSL Rent a Car BD</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-car-front-fill me-2"></i>SSL Rent a Car BD
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="fleet.html">Our Fleet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="booking.html">Book Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <a href="booking.html" class="btn btn-primary ms-lg-3 mt-3 mt-lg-0">
+                    <i class="bi bi-calendar-check me-2"></i>Reserve Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loadingCar" class="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Car Details Section -->
+    <section class="car-details py-5">
+        <div class="container">
+            <div id="carDetailsContent">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                 <h4 class="mb-3"><i class="bi bi-car-front-fill me-2"></i>SSL Rent a Car BD</h4>
+                <p>Your trusted car rental partner in Bangladesh. Quality vehicles, competitive prices, and exceptional service.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-whatsapp fs-5"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="fleet.html" class="text-muted text-decoration-none">Our Fleet</a></li>
+                        <li class="mb-2"><a href="booking.html" class="text-muted text-decoration-none">Book Now</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3">Popular Cars</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="car-details.html?id=1" class="text-muted text-decoration-none">Toyota Corolla</a></li>
+                        <li class="mb-2"><a href="car-details.html?id=2" class="text-muted text-decoration-none">Honda Civic</a></li>
+                        <li class="mb-2"><a href="car-details.html?id=3" class="text-muted text-decoration-none">Mitsubishi Pajero</a></li>
+                        <li class="mb-2"><a href="car-details.html?id=4" class="text-muted text-decoration-none">Nissan X-Trail</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="mb-3">Contact Info</h6>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i>+880 1XXX-XXXXXX</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i>info@rentcarbd.com</li>
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>House 123, Road 45, Dhanmondi, Dhaka</li>
+                        <li class="mb-2"><i class="bi bi-clock me-2"></i>24/7 Customer Support</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center pb-0">
+                 <p class="mb-0 text-muted">&copy; 2024 SSL Rent a Car BD. All rights reserved. | <a href="terms.html" class="text-muted">Terms of Service</a> | <a href="privacy.html" class="text-muted">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4 d-none scroll-btn">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/cars-data.js"></script>
+    <script src="js/car-details.js"></script>
+
+</body>
+</html>

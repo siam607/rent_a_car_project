@@ -1,0 +1,104 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-gradient text-white py-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-credit-card me-2"></i>{{ action }} Payment Method
+                    </h5>
+                    <span class="badge bg-light text-dark px-3 py-2">
+                        <i class="bi bi-pencil me-1"></i>{{ action }} Mode
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post" novalidate enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label for="id_name" class="form-label fw-semibold">Payment Method Name <span class="text-danger">*</span></label>
+                        {{ form.name }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-lightbulb me-1"></i>e.g., bKash, Nagad, Visa, Mastercard, American Express
+                        </small>
+                        {% if form.name.errors %}
+                            <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_icon" class="form-label fw-semibold">Payment Icon Image</label>
+                        {{ form.icon }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-image me-1"></i>Upload an icon image (SVG, PNG, JPG recommended)
+                        </small>
+                        {% if method.icon %}
+                        <div class="mt-3 p-3 bg-light rounded text-center">
+                            <p class="small text-muted mb-2">Current Icon:</p>
+                            <img src="{{ method.icon.url }}" alt="{{ method.name }}" height="48" style="max-height: 48px;">
+                        </div>
+                        {% endif %}
+                        {% if form.icon.errors %}
+                            <div class="text-danger small mt-1">{{ form.icon.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_icon_url" class="form-label fw-semibold">Icon URL (Fallback)</label>
+                        {{ form.icon_url }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-link-45deg me-1"></i>Alternative URL to payment icon. Used if no file uploaded.
+                        </small>
+                        <div class="mt-2">
+                            <small class="text-muted">Popular icon sources:</small><br>
+                            <a href="https://icons.getbootstrap.com/" target="_blank" class="btn btn-sm btn-outline-secondary me-1">
+                                <i class="bi bi-icons me-1"></i>Bootstrap Icons
+                            </a>
+                            <a href="https://fontawesome.com/" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-bootstrap-fill me-1"></i>Font Awesome
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_order" class="form-label fw-semibold">Display Order</label>
+                        {{ form.order }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-arrow-up-down me-1"></i>Lower numbers appear first
+                        </small>
+                        {% if form.order.errors %}
+                            <div class="text-danger small mt-1">{{ form.order.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            {{ form.is_active }}
+                            <label class="form-check-label ms-2" for="id_is_active">
+                                <strong>Active</strong>
+                                <small class="d-block text-muted">Show this payment method on the booking page</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'admin_panel:payment_list' %}" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle me-2"></i>Save Payment Method
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

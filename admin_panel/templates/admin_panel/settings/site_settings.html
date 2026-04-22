@@ -1,0 +1,173 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex align-items-center">
+                <div class="stat-icon bg-primary me-3" style="width: 48px; height: 48px; min-width: 48px;">
+                    <i class="bi bi-gear-fill"></i>
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold">Site Settings</h5>
+                    <small class="text-muted">Configure site-wide configuration</small>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Contact Information Section -->
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                <i class="bi bi-telephone text-primary"></i>
+                            </div>
+                            <h6 class="mb-0 fw-bold text-primary">Contact Information</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Primary Phone</label>
+                                {{ form.phone_primary }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Secondary Phone</label>
+                                {{ form.phone_secondary }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Primary Email</label>
+                                {{ form.email_primary }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Secondary Email</label>
+                                {{ form.email_secondary }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Office Address</label>
+                                {{ form.address }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Business Hours</label>
+                                {{ form.business_hours }}
+                                <small class="text-muted d-block mt-1">One per line: "Day: Time"</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media Section -->
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                <i class="bi bi-share text-success"></i>
+                            </div>
+                            <h6 class="mb-0 fw-bold text-success">Social Media Links</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Facebook</label>
+                                {{ form.facebook_url }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Instagram</label>
+                                {{ form.instagram_url }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Twitter</label>
+                                {{ form.twitter_url }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">WhatsApp</label>
+                                {{ form.whatsapp_url }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Section -->
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                <i class="bi bi-type text-warning"></i>
+                            </div>
+                            <h6 class="mb-0 fw-bold text-warning">Homepage Hero Section</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Title Line 1</label>
+                                {{ form.hero_title_line1 }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Title Line 2 (Accent)</label>
+                                {{ form.hero_title_line2 }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Subtitle</label>
+                                {{ form.hero_subtitle }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Badge Text</label>
+                                {{ form.hero_badge_text }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEO Section -->
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                <i class="bi bi-search text-info"></i>
+                            </div>
+                            <h6 class="mb-0 fw-bold text-info">SEO & Meta</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Site Description</label>
+                                {{ form.site_description }}
+                                <small class="text-muted d-block">Meta description for search engines</small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Keywords</label>
+                                {{ form.site_keywords }}
+                                <small class="text-muted d-block">Comma-separated keywords</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Section -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                <i class="bi bi-c-circle text-secondary"></i>
+                            </div>
+                            <h6 class="mb-0 fw-bold text-secondary">Footer</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Copyright Year</label>
+                                {{ form.copyright_year }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Copyright Text</label>
+                                {{ form.copyright_text }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{% url 'admin_panel:dashboard' %}" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-x-circle me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle me-2"></i>Save Settings
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

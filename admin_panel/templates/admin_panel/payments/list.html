@@ -1,0 +1,143 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex align-items-center">
+            <div class="stat-icon bg-success me-3" style="width: 48px; height: 48px; min-width: 48px;">
+                <i class="bi bi-credit-card"></i>
+            </div>
+            <div>
+                <h5 class="mb-0 fw-bold">Payment Methods</h5>
+                <small class="text-muted">{{ methods.count }} method{{ methods.count|pluralize }}</small>
+            </div>
+        </div>
+        <a href="{% url 'admin_panel:payment_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Add Payment Method
+        </a>
+    </div>
+
+    <div class="card-body p-0">
+        {% if methods %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 180px;">Method</th>
+                            <th>Icon</th>
+                            <th style="width: 100px;">Status</th>
+                            <th style="width: 100px;">Order</th>
+                            <th style="width: 160px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for method in methods %}
+                        <tr class="hover-highlight">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                        <i class="bi bi-credit-card-2-front text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="fs-6">{{ method.name }}</strong>
+                                        <br><small class="text-muted">Payment option</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if method.icon %}
+                                    <img src="{{ method.icon.url }}" alt="{{ method.name }}" height="32" style="max-height: 32px;">
+                                {% elif method.icon_url %}
+                                    <img src="{{ method.icon_url }}" alt="{{ method.name }}" height="32" style="max-height: 32px;">
+                                {% else %}
+                                    <span class="text-muted small">No icon</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if method.is_active %}
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-check-circle me-1"></i>Active
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark">{{ method.order }}</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{% url 'admin_panel:payment_edit' method.id %}" class="btn btn-outline-primary" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ method.id }}" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <div class="d-flex flex-column align-items-center">
+                                    <i class="bi bi-credit-card text-muted display-4 mb-3"></i>
+                                    <h6 class="text-muted">No Payment Methods</h6>
+                                    <p class="text-muted small mb-3">Add payment options for customers to use.</p>
+                                    <a href="{% url 'admin_panel:payment_create' %}" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle me-2"></i>Add Payment Method
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state text-center py-5">
+                <i class="bi bi-credit-card text-muted display-1 mb-3"></i>
+                <h5 class="text-muted">No Payment Methods Yet</h5>
+                <p class="text-muted mb-3">Add payment methods to display on the booking page.</p>
+                <a href="{% url 'admin_panel:payment_create' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle me-2"></i>Add Payment Method
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Modals -->
+{% for method in methods %}
+<div class="modal fade" id="deleteModal{{ method.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center mx-auto" style="width: 70px; height: 50px; border-radius: 8px;">
+                        <i class="bi bi-credit-card-2-front text-muted fs-3"></i>
+                    </div>
+                </div>
+                <h6>Delete "{{ method.name }}"?</h6>
+                <p class="text-muted small mb-0">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                <form action="{% url 'admin_panel:payment_delete' method.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="bi bi-trash me-2"></i>Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

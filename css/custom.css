@@ -1,0 +1,724 @@
+/* ============================================
+   CUSTOM TYPOGRAPHY & DESIGN SYSTEM
+   ============================================ */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --dark-bg: #0a0e27;
+    --dark-surface: #151932;
+    --text-light: #ffffff;
+    --text-muted: #a0aec0;
+    --accent-gold: #ffd700;
+    --brand-primary: #667eea;
+    --accent-pinkred: #f5576c;
+
+    /* Typography Scale */
+    --font-heading: 'Playfair Display', serif;
+    --font-subheading: 'Montserrat', sans-serif;
+    --font-body: 'Poppins', sans-serif;
+    --font-accent: 'Dancing Script', cursive;
+}
+
+body {
+    font-family: var(--font-body);
+    color: #333;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.font-accent {
+    font-family: var(--font-accent);
+}
+
+/* ============================================
+   NAVBAR STYLING
+   ============================================ */
+.navbar {
+    backdrop-filter: blur(10px);
+    background-color: rgba(10, 14, 39, 0.85) !important;
+    transition: all 0.3s ease;
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-family: var(--font-subheading);
+    font-weight: 800 !important;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-gradient);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+}
+
+/* ============================================
+   HERO SECTION - STUNNING TYPOGRAPHY
+   ============================================ */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(21, 25, 50, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated background shapes */
+.hero-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.1);
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -100px;
+}
+
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -50px;
+    left: -50px;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(50px, 30px) rotate(180deg); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, #e0e6ed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: #a0aec0;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+}
+
+.hero-accent-text {
+    font-family: var(--font-accent);
+    font-size: 2.5rem;
+    color: #ffd700;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.hero-tagline {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 2rem;
+}
+
+/* ============================================
+   BOOKING FORM CARD
+   ============================================ */
+.hero-form-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.hero-form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(102, 126, 234, 0.2);
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a0aec0;
+    margin-bottom: 0.75rem;
+}
+
+.form-control, .form-select {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-family: var(--font-body);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #667eea;
+    color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.2);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.form-select option {
+    background: var(--dark-bg);
+    color: #fff;
+}
+
+/* ============================================
+   FEATURE CARDS
+   ============================================ */
+.feature-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2);
+}
+
+.feature-icon-lg {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon-lg {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.feature-card h5 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1rem 0;
+    font-family: var(--font-heading);
+}
+
+/* ============================================
+   SECTION TITLES WITH DECORATION
+   ============================================ */
+.section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #a0aec0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   SECTION SPACING
+   ============================================ */
+section {
+    padding: 6rem 0;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-outline-primary {
+    border-width: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 30px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    background: var(--dark-bg);
+    color: #a0aec0;
+    padding: 4rem 0 2rem;
+}
+
+.footer h4, .footer h6 {
+    color: #fff;
+    font-family: var(--font-heading);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .hero-section {
+        padding-top: 100px;
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    section {
+        padding: 4rem 0;
+    }
+}
+
+/* ============================================
+   ABOUT PAGE STYLES
+   ============================================ */
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(21, 25, 50, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1463362244547-9509e69e48e7?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
+    padding: 8rem 0 5rem;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.page-header h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+.page-header .breadcrumb a {
+    color: var(--text-muted);
+}
+
+.breadcrumb-item.active {
+    color: var(--accent-gold);
+}
+
+/* Team Section */
+.team-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    height: 100%;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.team-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
+}
+
+.team-avatar {
+    width: 140px;
+    height: 140px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3.5rem;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .team-avatar {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.team-card h5 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1rem 0 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.team-card .text-muted {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+/* Stats Section */
+.stats-section {
+    background: var(--primary-gradient);
+    border-radius: 30px;
+    padding: 5rem 2rem;
+    margin: 5rem 0;
+}
+
+.stats-section .display-4 {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+}
+
+.stats-section p.lead {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+/* Value Cards */
+.value-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    height: 100%;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.value-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15);
+    transform: translateY(-8px);
+}
+
+.value-card i {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.value-card h5 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Feature Icons */
+.about-feature-card .feature-icon-lg {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.about-feature-card:hover .feature-icon-lg {
+    transform: scale(1.15) rotate(10deg);
+}
+
+/* Section Titles for About Page */
+.about-section-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    position: relative;
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+}
+
+.about-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 5px;
+    background: var(--primary-gradient);
+    border-radius: 3px;
+}
+
+.about-section-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 1rem auto 3rem;
+    line-height: 1.7;
+}
+
+/* Dancing script spans */
+.dancing-script {
+    font-family: 'Dancing Script', cursive;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.dancing-script-lg {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.dancing-script-sm {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* About page specific */
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.contact-info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.contact-form {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.branch-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.branch-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+}
+
+/* Scroll to top button */
+#scrollToTop {
+    width: 50px;
+    height: 50px;
+}
+
+/* Responsive for About page */
+@media (max-width: 768px) {
+    .page-header {
+        padding: 6rem 0 3rem;
+    }
+
+    .stats-section .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES FOR INLINE STYLE REPLACEMENT
+   ============================================ */
+
+/* Dancing script with different sizes */
+.dancing-lg {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.dancing-md {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.dancing-sm {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Brand colors */
+.text-brand-gold {
+    color: #ffd700;
+}
+
+.text-brand-primary {
+    color: var(--brand-primary);
+}
+
+.text-brand-pinkred {
+    color: var(--accent-pinkred);
+}
+
+/* Navbar background for about page */
+.navbar-about {
+    background-color: rgba(10, 14, 39, 0.85) !important;
+    backdrop-filter: blur(10px);
+}
+
+/* Footer styling */
+.footer-about {
+    background: var(--dark-bg);
+    color: var(--text-muted);
+}
+
+/* HR with custom border */
+.hr-light {
+    border-color: rgba(255,255,255,0.1);
+}
+
+/* Infobox border override */
+.iframe-border-none {
+    border: 0 !important;
+}
+
+/* Scroll button size */
+.brand-logo {
+    font-size: 1.8rem;
+}
+
+/* Gradient badges */
+.badge-gold-red {
+    background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 100%);
+}
+
+/* CTA section gradient */
+.cta-gradient {
+    background: var(--primary-gradient);
+}
+
+/* Car card specific */
+.car-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+.car-card .car-details h5,
+.car-card h5,
+.car-title {
+    font-size: 1.5rem;
+}
+
+/* Total amount display */
+.total-amount {
+    font-size: 1.5rem;
+    color: var(--brand-primary);
+}
+
+/* Text clamping for car descriptions */
+.text-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

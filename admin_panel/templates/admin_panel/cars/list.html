@@ -1,0 +1,190 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex align-items-center">
+            <div class="stat-icon bg-primary" style="width: 48px; height: 48px; min-width: 48px; margin-right: 1rem;">
+                <i class="bi bi-car-front"></i>
+            </div>
+            <div>
+                <h5 class="mb-0 fw-bold">Manage Cars</h5>
+                <small class="text-muted">{{ cars.count }} vehicle{{ cars.count|pluralize }} in fleet</small>
+            </div>
+        </div>
+        <a href="{% url 'admin_panel:car_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Add New Car
+        </a>
+    </div>
+
+    <div class="card-body">
+        {% if cars %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">Image</th>
+                        <th>Vehicle</th>
+                        <th>Category</th>
+                        <th>Specs</th>
+                        <th>Daily Rate</th>
+                        <th style="width: 90px;">Featured</th>
+                        <th style="width: 100px;">Status</th>
+                        <th style="width: 160px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for car in cars %}
+                    <tr class="car-row">
+                        <td>
+                            <div class="car-image-container" style="width: 80px; height: 60px; border-radius: 8px; overflow: hidden; background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%); display: flex; align-items: center; justify-content: center;">
+                                {% if car.image %}
+                                    <img src="{{ car.image.url }}" alt="{{ car.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {% elif car.image_url %}
+                                    <img src="{{ car.image_url }}" alt="{{ car.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                    <i class="bi bi-car-front text-muted" style="font-size: 1.5rem;"></i>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <strong class="fs-6 mb-1">{{ car.name }}</strong>
+                                <small class="text-muted">{{ car.slug|truncatechars:30 }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ car.get_category_display }}</span>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column gap-1">
+                                <small class="text-muted mb-0"><i class="bi bi-gear me-1"></i>{{ car.get_transmission_display }}</small>
+                                <small class="text-muted mb-0"><i class="bi bi-fuel-pump me-1"></i>{{ car.get_fuel_type_display }}</small>
+                                <small class="text-muted mb-0"><i class="bi bi-people me-1"></i>{{ car.seats }} seats</small>
+                            </div>
+                        </td>
+                        <td>
+                            <strong class="text-primary fs-5">৳{{ car.price_daily|floatformat:"0"|intcomma }}</strong>
+                        </td>
+                        <td>
+                            {% if car.featured %}
+                                <span class="badge bg-warning text-dark">
+                                    <i class="bi bi-star-fill me-1"></i>Yes
+                                </span>
+                            {% else %}
+                                <span class="badge bg-light text-muted">No</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if car.available %}
+                                <span class="badge bg-success">
+                                    <i class="bi bi-check-circle me-1"></i>Available
+                                </span>
+                            {% else %}
+                                <span class="badge bg-danger">
+                                    <i class="bi bi-x-circle me-1"></i>Booked
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{% url 'admin_panel:car_edit' car.id %}" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Edit Car">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ car.id }}" title="Delete Car">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-5">
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="bi bi-car-front text-muted display-4 mb-3"></i>
+                                <p class="text-muted mb-0">No cars found in inventory.</p>
+                                <a href="{% url 'admin_panel:car_create' %}" class="btn btn-primary btn-sm mt-3">
+                                    <i class="bi bi-plus-circle me-1"></i>Add First Car
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination (if needed later) -->
+        {% if cars.paginator and cars.paginator.num_pages > 1 %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if cars.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ cars.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% for num in cars.paginator.page_range %}
+                    <li class="page-item {% if cars.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if cars.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ cars.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <div class="empty-state text-center py-5">
+            <i class="bi bi-car-front text-muted display-1 mb-3"></i>
+            <h5 class="text-muted">No Cars Yet</h5>
+            <p class="text-muted mb-4">Get started by adding your first vehicle to the fleet.</p>
+            <a href="{% url 'admin_panel:car_create' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle me-2"></i>Add New Car
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Modals -->
+{% for car in cars %}
+<div class="modal fade" id="deleteModal{{ car.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    {% if car.image %}
+                        <img src="{{ car.image.url }}" alt="{{ car.name }}" style="width: 120px; height: 90px; object-fit: cover; border-radius: 8px;">
+                    {% else %}
+                        <div class="bg-light rounded d-flex align-items-center justify-content-center mx-auto" style="width: 120px; height: 90px;">
+                            <i class="bi bi-car-front text-muted fs-1"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <h6 class="mb-2">{{ car.name }}</h6>
+                <p class="text-muted small mb-0">This action will permanently delete this car and all associated data. This cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                <form action="{% url 'admin_panel:car_delete' car.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="bi bi-trash me-2"></i>Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

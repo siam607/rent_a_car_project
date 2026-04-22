@@ -1,0 +1,141 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex align-items-center">
+            <div class="stat-icon bg-warning me-3" style="width: 48px; height: 48px; min-width: 48px;">
+                <i class="bi bi-bar-chart-fill"></i>
+            </div>
+            <div>
+                <h5 class="mb-0 fw-bold">Homepage Statistics</h5>
+                <small class="text-muted">{{ statistics.count }} statistic{{ statistics.count|pluralize }}</small>
+            </div>
+        </div>
+        <a href="{% url 'admin_panel:statistic_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Add Statistic
+        </a>
+    </div>
+    <div class="card-body p-0">
+        {% if statistics %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 80px;">#</th>
+                            <th>Statistic</th>
+                            <th style="width: 150px;">Value</th>
+                            <th>Icon</th>
+                            <th style="width: 100px;">Status</th>
+                            <th style="width: 180px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stat in statistics %}
+                        <tr class="hover-highlight">
+                            <td>
+                                <strong class="fs-5 text-muted">{{ stat.order }}</strong>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <strong class="fs-6">{{ stat.label }}</strong>
+                                    <small class="text-muted">ID: {{ stat.id }}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="fs-4 fw-bold text-primary">{{ stat.value }}</div>
+                            </td>
+                            <td>
+                                <span class="fs-4 text-muted"><i class="{{ stat.icon_class }}"></i></span><br>
+                                <small class="text-muted font-monospace">{{ stat.icon_class }}</small>
+                            </td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                           id="active{{ stat.id }}"
+                                           {{ stat.is_active|yesno:"checked," }} disabled>
+                                    <label class="form-check-label" for="active{{ stat.id }}">
+                                        {% if stat.is_active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        {% endif %}
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{% url 'admin_panel:statistic_edit' stat.id %}" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ stat.id }}" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="d-flex flex-column align-items-center">
+                                    <i class="bi bi-bar-chart text-muted display-4 mb-3"></i>
+                                    <h6 class="text-muted">No Statistics Found</h6>
+                                    <p class="text-muted small mb-3">Add homepage statistics to display key metrics.</p>
+                                    <a href="{% url 'admin_panel:statistic_create' %}" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle me-2"></i>Add First Statistic
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state text-center py-5">
+                <i class="bi bi-bar-chart text-muted display-1 mb-3"></i>
+                <h5 class="text-muted">No Statistics Yet</h5>
+                <p class="text-muted mb-3">Add statistics to showcase your achievements on the homepage.</p>
+                <a href="{% url 'admin_panel:statistic_create' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle me-2"></i>Add Statistic
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Modals -->
+{% for stat in statistics %}
+<div class="modal fade" id="deleteModal{{ stat.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px; border-radius: 50%;">
+                        <i class="{{ stat.icon_class }} text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+                <h6>Delete "{{ stat.label }}"?</h6>
+                <p class="text-muted small mb-0">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                <form action="{% url 'admin_panel:statistic_delete' stat.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="bi bi-trash me-2"></i>Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

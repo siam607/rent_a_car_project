@@ -1,0 +1,143 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex align-items-center">
+            <div class="stat-icon bg-success me-3" style="width: 48px; height: 48px; min-width: 48px;">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div>
+                <h5 class="mb-0 fw-bold">Team Members</h5>
+                <small class="text-muted">{{ members.count }} member{{ members.count|pluralize }}</small>
+            </div>
+        </div>
+        <a href="{% url 'admin_panel:team_create' %}" class="btn btn-primary">
+            <i class="bi bi-person-plus me-2"></i>Add Team Member
+        </a>
+    </div>
+
+    <div class="card-body p-0">
+        {% if members %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 100px;">Photo</th>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th style="width: 80px;">Order</th>
+                            <th style="width: 100px;">Status</th>
+                            <th style="width: 160px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                        <tr class="hover-highlight">
+                            <td>
+                                <div class="rounded-circle overflow-hidden bg-light d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    {% if member.image %}
+                                        <img src="{{ member.image.url }}" alt="{{ member.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% elif member.image_url %}
+                                        <img src="{{ member.image_url }}" alt="{{ member.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% else %}
+                                        <i class="bi bi-person text-muted fs-4"></i>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                <strong class="fs-6">{{ member.name }}</strong>
+                            </td>
+                            <td>{{ member.position }}</td>
+                            <td>
+                                <span class="badge bg-light text-dark border">{{ member.order }}</span>
+                            </td>
+                            <td>
+                                {% if member.is_active %}
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-check-circle me-1"></i>Active
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{% url 'admin_panel:team_edit' member.id %}" class="btn btn-outline-primary" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ member.id }}" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="d-flex flex-column align-items-center">
+                                    <i class="bi bi-people text-muted display-4 mb-3"></i>
+                                    <h6 class="text-muted">No Team Members</h6>
+                                    <p class="text-muted small mb-3">Add team members to display on the About page.</p>
+                                    <a href="{% url 'admin_panel:team_create' %}" class="btn btn-primary">
+                                        <i class="bi bi-person-plus me-2"></i>Add Team Member
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state text-center py-5">
+                <i class="bi bi-people text-muted display-1 mb-3"></i>
+                <h5 class="text-muted">No Team Members Yet</h5>
+                <p class="text-muted mb-3">Add team members to showcase your team on the About page.</p>
+                <a href="{% url 'admin_panel:team_create' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-person-plus me-2"></i>Add Team Member
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Modals -->
+{% for member in members %}
+<div class="modal fade" id="deleteModal{{ member.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    {% if member.image %}
+                        <img src="{{ member.image.url }}" alt="{{ member.name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" class="mx-auto">
+                    {% else %}
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px;">
+                            <i class="bi bi-person text-muted fs-3"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <h6>Delete "{{ member.name }}"?</h6>
+                <p class="text-muted small mb-0">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                <form action="{% url 'admin_panel:team_delete' member.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="bi bi-trash me-2"></i>Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

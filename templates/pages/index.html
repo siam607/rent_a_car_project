@@ -1,0 +1,425 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium car rental services across Bangladesh. Book your perfect ride with SSL Rent a Car BD.">
+    <meta name="keywords" content="car rental Bangladesh, rent a car Dhaka, luxury car hire, premium car rental">
+    <title>SSL Rent a Car BD | Premium Car Rental in Bangladesh</title>
+
+    <!-- Google Fonts - Typography Heaven -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    </head>
+    <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+                <a class="navbar-brand" href="{% url 'pages:home' %}">
+                <i class="bi bi-car-front-fill me-2"></i>
+                <span class="font-accent brand-logo">SSL</span>Rent a Car
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                 <ul class="navbar-nav ms-auto">
+                      <li class="nav-item"><a class="nav-link active" href="{% url 'pages:home' %}">Home</a></li>
+                      <li class="nav-item"><a class="nav-link" href="{% url 'pages:fleet' %}">Fleet</a></li>
+                      <li class="nav-item"><a class="nav-link" href="{% url 'pages:booking' %}">Booking</a></li>
+                      <li class="nav-item"><a class="nav-link" href="{% url 'pages:about' %}">About</a></li>
+                      <li class="nav-item"><a class="nav-link" href="{% url 'pages:contact' %}">Contact</a></li>
+                 </ul>
+                 <a href="{% url 'pages:booking' %}" class="btn btn-primary ms-lg-3 mt-3 mt-lg-0">
+                    <i class="bi bi-calendar-check me-2"></i>Book Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-shape shape-1"></div>
+        <div class="hero-shape shape-2"></div>
+        
+        <div class="container hero-content">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                        <div class="mb-3" data-aos="fade-down">
+                         <span class="badge bg-gradient text-white px-4 py-2 rounded-pill badge-gold-red">
+                             <i class="bi bi-star-fill me-2"></i>{{ site_settings.hero_badge_text|default:'Premium Car Rental in Bangladesh' }}
+                         </span>
+                     </div>
+
+                    <h1 class="hero-title mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <span class="d-block">{{ site_settings.hero_title_line1|default:'Your Journey Begins' }}</span>
+                        <span class="font-accent text-brand-gold">{{ site_settings.hero_title_line2|default:'With Perfect Ride' }}</span>
+                    </h1>
+
+                    <p class="hero-subtitle mb-5" data-aos="fade-up" data-aos-delay="400">
+                        {{ site_settings.hero_subtitle|default:'Experience luxury, comfort, and reliability with our premium fleet. Explore Bangladesh like never before.' }}
+                    </p>
+
+                     <div class="d-flex flex-wrap gap-3 justify-content-center mb-5" data-aos="fade-up" data-aos-delay="600">
+                         <a href="{% url 'pages:fleet' %}" class="btn btn-primary btn-lg px-5">
+                             <i class="bi bi-car-front-fill me-2"></i>Explore Fleet
+                         </a>
+                         <a href="{% url 'pages:booking' %}" class="btn btn-outline-light btn-lg px-5">
+                             <i class="bi bi-calendar-check me-2"></i>Reserve Now
+                         </a>
+                     </div>
+
+                     <!-- Search Form -->
+                     <div class="hero-form-card" data-aos="fade-up" data-aos-delay="800">
+                         <h4 class="text-white mb-4"><i class="bi bi-search me-2"></i>Find Your Car</h4>
+                         <form id="heroSearchForm" action="{% url 'pages:fleet' %}" method="GET">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-4">
+                                    <label class="form-label"><i class="bi bi-geo-alt me-2"></i>Location</label>
+                                    <select class="form-select" name="location">
+                                        <option value="">Select City</option>
+                                        <option value="dhaka">Dhaka</option>
+                                        <option value="chittagong">Chittagong</option>
+                                        <option value="sylhet">Sylhet</option>
+                                        <option value="coxs-bazar">Cox's Bazar</option>
+                                        <option value="rajshahi">Rajshahi</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label"><i class="bi bi-calendar3 me-2"></i>From</label>
+                                    <input type="date" class="form-control" name="pickup_date" id="pickupDate" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label"><i class="bi bi-calendar3 me-2"></i>To</label>
+                                    <input type="date" class="form-control" name="dropoff_date" id="dropoffDate" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-search me-2 d-lg-none"></i><span class="d-none d-lg-inline">Search</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose-us bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="dancing-md text-primary">Why Choose Us</span>
+                <h2 class="section-title mt-2">We Go The Extra Mile</h2>
+                <p class="section-subtitle">Experience premium service with every journey</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h5>Safe & Insured</h5>
+                        <p class="text-muted">Comprehensive insurance coverage. Your safety is our priority.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                        <h5>Best Prices</h5>
+                        <p class="text-muted">Transparent pricing with no hidden fees. Get the best value.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-gear"></i>
+                        </div>
+                        <h5>Well-Maintained</h5>
+                        <p class="text-muted">Regularly serviced, clean, and reliable vehicles.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-telephone"></i>
+                        </div>
+                        <h5>24/7 Support</h5>
+                        <p class="text-muted">Round-the-clock assistance for peace of mind.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <h5>Multiple Locations</h5>
+                        <p class="text-muted">Pick up and drop off anywhere in Bangladesh.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-card">
+                        <div class="feature-icon-lg">
+                            <i class="bi bi-percent"></i>
+                        </div>
+                        <h5>Flexible Discounts</h5>
+                        <p class="text-muted">Save more with weekly & monthly rental offers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Cars -->
+    <section class="featured-cars py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="dancing-md text-danger">Popular Choices</span>
+                <h2 class="section-title mt-2">Our Premium Fleet</h2>
+                <p class="section-subtitle">Handpicked vehicles for your comfort</p>
+            </div>
+
+            <div class="row g-4" id="featuredCars">
+                <!-- Cars will be populated by JavaScript -->
+            </div>
+
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="{% url 'pages:fleet' %}" class="btn btn-outline-primary btn-lg px-5">
+                    View All Cars <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section py-5 cta-gradient">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-white mb-3" data-aos="fade-up">
+                        Ready to Hit the Road?
+                    </h2>
+                    <p class="lead text-white-50 mb-4" data-aos="fade-up" data-aos-delay="100">
+                        Book your car today and experience the freedom of the open road
+                    </p>
+                    <a href="{% url 'pages:booking' %}" class="btn btn-light btn-lg px-5" data-aos="fade-up" data-aos-delay="200">
+                        <i class="bi bi-calendar-check me-2"></i>Book Your Ride
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                     <h4 class="mb-3">
+                         <i class="bi bi-car-front-fill me-2"></i>
+                         <span class="font-accent brand-logo">SSL</span>Rent a Car
+                     </h4>
+                     <p>{{ site_settings.site_description|default:'Your trusted car rental partner in Bangladesh. Quality vehicles, competitive prices, and exceptional service.' }}</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-whatsapp fs-5"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="mb-3">Quick Links</h6>
+                     <ul class="list-unstyled">
+                         <li class="mb-2"><a href="{% url 'pages:home' %}" class="text-muted text-decoration-none">Home</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:fleet' %}" class="text-muted text-decoration-none">Our Fleet</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:booking' %}" class="text-muted text-decoration-none">Book Now</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:about' %}" class="text-muted text-decoration-none">About Us</a></li>
+                         <li class="mb-2"><a href="{% url 'pages:contact' %}" class="text-muted text-decoration-none">Contact</a></li>
+                     </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3">Popular Cars</h6>
+                      <ul class="list-unstyled">
+                          <li class="mb-2"><a href="{% url 'pages:car_details' 1 %}" class="text-muted text-decoration-none">Toyota Corolla</a></li>
+                          <li class="mb-2"><a href="{% url 'pages:car_details' 2 %}" class="text-muted text-decoration-none">Honda Civic</a></li>
+                          <li class="mb-2"><a href="{% url 'pages:car_details' 3 %}" class="text-muted text-decoration-none">Mitsubishi Pajero</a></li>
+                          <li class="mb-2"><a href="{% url 'pages:car_details' 4 %}" class="text-muted text-decoration-none">Nissan X-Trail</a></li>
+                      </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="mb-3">Contact Info</h6>
+                     <ul class="list-unstyled text-muted">
+                         <li class="mb-2"><i class="bi bi-telephone me-2"></i>{{ site_settings.phone_primary|default:'+880 1849448321' }}</li>
+                         <li class="mb-2"><i class="bi bi-envelope me-2"></i>{{ site_settings.email_primary|default:'info@sslrentacarbd.com' }}</li>
+                         <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>{{ site_settings.address|default:'House 123, Road 45, Dhanmondi, Dhaka' }}</li>
+                         <li class="mb-2"><i class="bi bi-clock me-2"></i>24/7 Customer Support</li>
+                     </ul>
+                </div>
+            </div>
+            <hr class="my-4 hr-light">
+            <div class="text-center pb-0">
+                 <p class="mb-0 text-muted">&copy; {{ site_settings.copyright_year|default:'2026' }} {{ site_settings.copyright_text|default:'SSL Rent a Car BD. All rights reserved.' }} | <a href="{% url 'pages:terms' %}" class="text-muted">Terms of Service</a> | <a href="{% url 'pages:privacy' %}" class="text-muted">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Payment Gateway Showcase -->
+     <div class="payment-gateway-showcase" style="background: #f8f9fa; padding: 30px 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+         <h4 style="margin-bottom: 20px; color: #333; font-weight: 700;">We Accept</h4>
+         <div style="display: flex; flex-direction: column; align-items: center; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px 0;">
+              <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px;">
+                  {% for method in payment_methods %}
+                  <img src="{{ method.get_icon_url }}" alt="{{ method.name }}" width="90" height="56" style="object-fit: contain;">
+                  {% empty %}
+                  <!-- Fallback to static images if no payment methods configured -->
+                  <img src="{% static 'images/payment/bkash.svg' %}" alt="bKash" width="90" height="56" style="object-fit: contain;">
+                  <img src="{% static 'images/payment/nagad.svg' %}" alt="Nagad" width="90" height="56" style="object-fit: contain;">
+                  <img src="{% static 'images/payment/rocket.svg' %}" alt="Rocket" width="90" height="56" style="object-fit: contain;">
+                  <img src="{% static 'images/payment/sslcommerz.svg' %}" alt="SSLCommerz" width="100" height="56" style="object-fit: contain;">
+                  <img src="{% static 'images/payment/visa-mastercard.svg' %}" alt="Visa Mastercard" width="130" height="56" style="object-fit: contain;">
+                  {% endfor %}
+              </div>
+         </div>
+         <p style="margin-top: 15px; font-size: 12px; color: #666;">Secure payments powered by SSLCommerz</p>
+     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <!-- cars-data.js removed - using Django context instead -->
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+            once: true,
+            offset: 100
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Dynamic date inputs
+        const pickupDate = document.getElementById('pickupDate');
+        const dropoffDate = document.getElementById('dropoffDate');
+        const today = new Date().toISOString().split('T')[0];
+        const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+
+        if (pickupDate) {
+            pickupDate.min = today;
+            pickupDate.value = today;
+        }
+        if (dropoffDate) {
+            dropoffDate.min = today;
+            dropoffDate.value = tomorrow;
+        }
+
+        // Define carsData from Django context
+        const carsData = [
+            {% for car in featured_cars %}
+            {
+                id: {{ car.id }},
+                name: "{{ car.name }}",
+                image: "{{ car.get_primary_image }}",
+                specs: {
+                    transmission: "{{ car.get_transmission_display }}",
+                    fuel: "{{ car.get_fuel_type_display }}"
+                },
+                priceDaily: {{ car.price_daily }},
+                available: true
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        // Load featured cars
+        document.addEventListener('DOMContentLoaded', function() {
+            const featuredCarsContainer = document.getElementById('featuredCars');
+            if (featuredCarsContainer && typeof carsData !== 'undefined') {
+                const featuredCars = carsData.filter(car => car.available).slice(0, 6);
+                
+                featuredCars.forEach(car => {
+                    const col = document.createElement('div');
+                    col.className = 'col-lg-4 col-md-6';
+                    col.innerHTML = `
+                        <div class="car-card h-100" data-aos="fade-up">
+                            <div class="car-image-wrapper position-relative overflow-hidden rounded-3">
+                                 <img src="${car.image}" alt="${car.name}" class="img-fluid w-100 car-image">
+                                <div class="car-badge position-absolute top-0 end-0 m-2 bg-success text-white px-2 py-1 rounded">
+                                    Available
+                                </div>
+                            </div>
+                            <div class="car-details p-4 bg-white">
+                                <h5 class="font-accent mb-2 car-title">${car.name}</h5>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="badge bg-primary">${car.specs.transmission}</span>
+                                    <span class="badge bg-outline-secondary">${car.specs.fuel}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <small class="text-muted d-block">From /day</small>
+                                        <strong class="fs-4 text-primary">৳${car.priceDaily.toLocaleString()}</strong>
+                                    </div>
+                                    <a href="/booking/?car=${car.id}" class="btn btn-sm btn-primary">
+                                        Book Now <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    featuredCarsContainer.appendChild(col);
+                });
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '0.5rem 0';
+                navbar.style.backgroundColor = 'rgba(10, 14, 39, 0.95)';
+            } else {
+                navbar.style.padding = '1rem 0';
+                navbar.style.backgroundColor = 'rgba(10, 14, 39, 0.85)';
+            }
+        });
+    </script>
+</body>
+</html>

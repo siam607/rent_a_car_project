@@ -1,0 +1,89 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-gradient text-white py-3" style="background: linear-gradient(135deg, #f6ad55 0%, #fda085 100%);">
+                <h5 class="mb-0 fw-bold">
+                    <i class="bi bi-bar-chart me-2"></i>{{ action }} Statistic
+                </h5>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label for="id_label" class="form-label fw-semibold">Statistic Label <span class="text-danger">*</span></label>
+                        {{ form.label }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-lightbulb me-1"></i>e.g., "Vehicles", "Happy Customers"
+                        </small>
+                        {% if form.label.errors %}
+                            <div class="text-danger small mt-1">{{ form.label.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_value" class="form-label fw-semibold">Display Value <span class="text-danger">*</span></label>
+                        {{ form.value }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-lightbulb me-1"></i>e.g., "50+", "10K+", "9+", "1000+"
+                        </small>
+                        {% if form.value.errors %}
+                            <div class="text-danger small mt-1">{{ form.value.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_icon_class" class="form-label fw-semibold">Bootstrap Icon <span class="text-danger">*</span></label>
+                        {{ form.icon_class }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-info-circle me-1"></i>Icons from
+                            <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a>
+                            (e.g., "bi bi-car-front")
+                        </small>
+                        {% if form.icon_class.errors %}
+                            <div class="text-danger small mt-1">{{ form.icon_class.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_order" class="form-label fw-semibold">Display Order</label>
+                        {{ form.order }}
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-arrow-up-down me-1"></i>Lower numbers appear first on homepage
+                        </small>
+                        {% if form.order.errors %}
+                            <div class="text-danger small mt-1">{{ form.order.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            {{ form.is_active }}
+                            <label class="form-check-label ms-2" for="id_is_active">
+                                <strong>Active</strong>
+                                <small class="d-block text-muted">Show this statistic on the homepage</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'admin_panel:statistic_list' %}" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle me-2"></i>Save Statistic
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="View your booking invoice - SSL Rent a Car BD. Enter your booking reference to access your rental details.">
+    <title>View Invoice - SSL Rent a Car BD</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <style>
+        /* Invoice Display Styling */
+        .invoice-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 3px solid #667eea;
+        }
+
+        .invoice-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .invoice-header h1 {
+            font-weight: 800;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .invoice-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .invoice-body {
+            padding: 40px;
+        }
+
+        .invoice-section-title {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: inline-block;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .info-value {
+            color: #666;
+            text-align: right;
+        }
+
+        .booking-ref {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .booking-ref h2 {
+            font-weight: 700;
+            margin: 0 0 10px;
+        }
+
+        .booking-ref .ref-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .car-info-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .car-price-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #667eea;
+            text-align: right;
+            margin: 0;
+        }
+
+        .car-price-label {
+            font-size: 0.9rem;
+            color: #999;
+            text-align: right;
+        }
+
+        .price-summary {
+            background: #fff;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-row:last-of-type {
+            border-bottom: none;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid #667eea;
+        }
+
+        .price-total {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .qr-section p {
+            margin: 15px 0 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .invoice-footer {
+            text-align: center;
+            padding: 25px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 2px solid #667eea;
+            margin-top: 30px;
+        }
+
+        .not-found {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .not-found i {
+            font-size: 5rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .search-box h2 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .search-box p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px 35px;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-outline-primary {
+            border-width: 2px;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 10px 30px;
+        }
+
+        .badge-transmission {
+            background: #667eea;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .badge-fuel {
+            background: #28a745;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .invoice-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .invoice-body {
+                padding: 25px;
+            }
+
+            .car-price-display {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-car-front-fill me-2"></i>SSL Rent a Car BD
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="fleet.html">Our Fleet</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booking.html">Book Now</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="invoice.html">My Booking</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-white">Home</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">View Invoice</li>
+                </ol>
+            </nav>
+            <h1>My Booking Invoice</h1>
+            <p class="lead">Enter your booking reference to view your rental details</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+
+            <!-- Search Section -->
+            <div class="search-box" id="searchSection">
+                <h2>Find Your Booking</h2>
+                <p>Enter your booking reference number (e.g., RENT-ABC123) to view your invoice</p>
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" id="bookingRefInput"
+                        placeholder="Enter booking reference (e.g., RENT-ABC123)" aria-label="Booking Reference">
+                    <button class="btn btn-primary" type="button" onclick="searchBooking()">
+                        <i class="bi bi-search me-2"></i>Search
+                    </button>
+                </div>
+                <div id="searchError" class="alert alert-danger mt-3" style="display: none;"></div>
+            </div>
+
+            <!-- Invoice Display -->
+            <div id="invoiceDisplay" style="display: none;">
+                <div class="invoice-container" id="invoiceToPrint">
+                    <!-- Invoice Header -->
+                    <div class="invoice-header">
+                        <h1><i class="bi bi-car-front-fill me-2"></i>SSL RENT A CAR BD</h1>
+                        <p>Premium Car Rental Services in Bangladesh</p>
+                        <p class="mb-0">House 123, Road 45, Dhanmondi, Dhaka - 1209 | +880 1849448321</p>
+                    </div>
+
+                    <div class="invoice-body">
+                        <!-- Booking Reference -->
+                        <div class="booking-ref">
+                            <h2>Booking Reference</h2>
+                            <span class="ref-number" id="viewRef"></span>
+                        </div>
+
+                        <!-- Customer Info -->
+                        <h4 class="invoice-section-title"><i class="bi bi-person me-2"></i>Customer Information</h4>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="info-row">
+                                    <span class="info-label">Full Name</span>
+                                    <span class="info-value" id="viewName"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Email</span>
+                                    <span class="info-value" id="viewEmail"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Phone</span>
+                                    <span class="info-value" id="viewPhone"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">NID / Passport</span>
+                                    <span class="info-value" id="viewNID"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-row">
+                                    <span class="info-label">Pick-up Date</span>
+                                    <span class="info-value" id="viewPickupDate"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Drop-off Date</span>
+                                    <span class="info-value" id="viewDropoffDate"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Duration</span>
+                                    <span class="info-value" id="viewDays"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Created On</span>
+                                    <span class="info-value" id="viewCreated"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Locations -->
+                        <h4 class="invoice-section-title"><i class="bi bi-geo-alt me-2"></i>Locations</h4>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="info-row">
+                                    <span class="info-label">Pick-up Location</span>
+                                    <span class="info-value" id="viewPickupLocation"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-row">
+                                    <span class="info-label">Drop-off Location</span>
+                                    <span class="info-value" id="viewDropoffLocation"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Car Details -->
+                        <h4 class="invoice-section-title"><i class="bi bi-car-front me-2"></i>Vehicle Information</h4>
+                        <div class="car-info-box">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 style="font-weight: 700; color: #333; margin-bottom: 15px;" id="viewCarName"></h5>
+                                    <div class="mb-2">
+                                        <span class="badge-transmission me-2" id="viewTransmission"></span>
+                                        <span class="badge-fuel" id="viewFuel"></span>
+                                        <span class="badge bg-secondary ms-2" id="viewSeats"></span>
+                                    </div>
+                                    <p class="text-muted mb-0" id="viewDescription"></p>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <p class="car-price-label">Daily Rate</p>
+                                    <p class="car-price-display" id="viewDailyPrice"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price Summary -->
+                        <h4 class="invoice-section-title"><i class="bi bi-calculator me-2"></i>Price Summary</h4>
+                        <div class="price-summary">
+                            <div class="price-row">
+                                <span>Daily Rate × <span id="viewDayCount">0</span> day(s)</span>
+                                <span id="viewSubtotal"></span>
+                            </div>
+                            <div class="price-row" id="discountRowView">
+                                <span>Discount (<span id="viewDiscountRate">0</span>%)</span>
+                                <span style="color: #28a745;" id="viewDiscountAmount"></span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-total">Total Payable</span>
+                                <span class="price-total" id="viewTotal"></span>
+                            </div>
+                        </div>
+
+                        <!-- QR Code -->
+                        <div class="qr-section">
+                            <div id="viewQRCode" style="display: inline-block;"></div>
+                            <p>Scan this QR code to verify your booking reference</p>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="invoice-footer">
+                        <p class="mb-1"><i class="bi bi-telephone me-2"></i>Roadside Assistance: +880 1849448321 (24/7)</p>
+                        <p class="mb-1"><i class="bi bi-envelope me-2"></i>Email: info@sslrentacarbd.com</p>
+                        <p class="mb-0">© <span id="viewYear"></span> SSL Rent a Car BD. All rights reserved.</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="text-center mt-4 mb-5">
+                    <button class="btn btn-primary btn-lg px-4 me-3" onclick="downloadCurrentInvoice()">
+                        <i class="bi bi-download me-2"></i>Download PDF
+                    </button>
+                    <button class="btn btn-outline-primary btn-lg px-4" onclick="window.print()">
+                        <i class="bi bi-printer me-2"></i>Print Invoice
+                    </button>
+                    <button class="btn btn-outline-secondary btn-lg px-4 ms-3" onclick="searchAgain()">
+                        <i class="bi bi-search me-2"></i>Search Another
+                    </button>
+                </div>
+            </div>
+
+            <!-- Not Found -->
+            <div class="not-found" id="notFoundSection" style="display: none;">
+                <i class="bi bi-search"></i>
+                <h3>Booking Not Found</h3>
+                <p class="text-muted">We couldn't find any booking with that reference number.</p>
+                <p class="text-muted small">Please check the reference and try again.</p>
+                <button class="btn btn-primary mt-3" onclick="searchAgain()">
+                    <i class="bi bi-arrow-left me-2"></i>Try Again
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-3">SSL Rent a Car BD</h4>
+                    <p class="text-muted">Premium car rental services across Bangladesh. Book your perfect ride today.</p>
+                    <div class="social-links mt-3">
+                        <a href="#"><i class="bi bi-facebook-f"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6 class="mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-muted">Home</a></li>
+                        <li class="mb-2"><a href="fleet.html" class="text-muted">Our Fleet</a></li>
+                        <li class="mb-2"><a href="booking.html" class="text-muted">Book Now</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-muted">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6 class="mb-3">Contact Us</h6>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Dhaka, Bangladesh</li>
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i>+880 1849448321</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i>info@sslrentacarbd.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <p class="text-center mb-0 text-muted">&copy; 2026 SSL Rent a Car BD. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Payment Gateway Showcase -->
+    <div class="payment-gateway-showcase" style="background: #f8f9fa; padding: 30px 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+        <h4 style="margin-bottom: 20px; color: #333; font-weight: 700;">We Accept</h4>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px 0;">
+            <!-- Row 1 -->
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px;">
+                <!-- bKash -->
+                <img src="images/payment/bkash.svg" alt="bKash" width="90" height="56" style="object-fit: contain;">
+                <!-- Nagad -->
+                <img src="images/payment/nagad.svg" alt="Nagad" width="90" height="56" style="object-fit: contain;">
+                <!-- Rocket -->
+                <img src="images/payment/rocket.svg" alt="Rocket" width="90" height="56" style="object-fit: contain;">
+                <!-- SSLCommerz -->
+                <img src="images/payment/sslcommerz.svg" alt="SSLCommerz" width="100" height="56" style="object-fit: contain;">
+                <!-- Upay -->
+                <img src="images/payment/upay.svg" alt="Upay" width="90" height="56" style="object-fit: contain;">
+                <!-- SureCash -->
+                <img src="images/payment/surecash.svg" alt="SureCash" width="100" height="56" style="object-fit: contain;">
+                <!-- Visa/Mastercard -->
+                <img src="images/payment/visa-mastercard.svg" alt="Visa Mastercard" width="130" height="56" style="object-fit: contain;">
+            </div>
+            <!-- Row 2 -->
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px;">
+                <!-- Dutch Bangla Bank -->
+                <img src="images/payment/dutch-bangla-bank.svg" alt="Dutch Bangla Bank" width="100" height="56" style="object-fit: contain;">
+                <!-- BRAC Bank -->
+                <img src="images/payment/brac-bank.svg" alt="BRAC Bank" width="95" height="56" style="object-fit: contain;">
+                <!-- City Bank -->
+                <img src="images/payment/city-bank.svg" alt="City Bank" width="90" height="56" style="object-fit: contain;">
+                <!-- Eastern Bank -->
+                <img src="images/payment/eastern-bank.svg" alt="Eastern Bank" width="100" height="56" style="object-fit: contain;">
+                <!-- Islami Bank -->
+                <img src="images/payment/islami-bank.svg" alt="Islami Bank" width="100" height="56" style="object-fit: contain;">
+                <!-- AB Bank -->
+                <img src="images/payment/ab-bank.svg" alt="AB Bank" width="80" height="56" style="object-fit: contain;">
+                <!-- Standard Chartered -->
+                <img src="images/payment/standard-chartered.svg" alt="Standard Chartered" width="120" height="56" style="object-fit: contain;">
+            </div>
+        </div>
+        <p style="margin-top: 15px; font-size: 12px; color: #666;">Secure payments powered by SSLCommerz</p>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/cars-data.js"></script>
+    <script src="js/booking.js"></script>
+
+    <script>
+        // Invoice viewing functionality
+        let currentBooking = null;
+
+        // Load booking from URL parameter on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ref = urlParams.get('ref');
+            if (ref) {
+                document.getElementById('bookingRefInput').value = ref;
+                searchBooking();
+            }
+        });
+
+        function searchBooking() {
+            const refInput = document.getElementById('bookingRefInput');
+            const searchError = document.getElementById('searchError');
+            const invoiceDisplay = document.getElementById('invoiceDisplay');
+            const notFoundSection = document.getElementById('notFoundSection');
+            const searchSection = document.getElementById('searchSection');
+
+            const bookingRef = refInput.value.trim();
+
+            if (!bookingRef) {
+                searchError.textContent = 'Please enter a booking reference number.';
+                searchError.style.display = 'block';
+                return;
+            }
+
+            // Get all bookings from localStorage
+            const bookings = JSON.parse(localStorage.getItem('rentcarbd_bookings') || '[]');
+
+            // Find the booking
+            const booking = bookings.find(b => b.id.toLowerCase() === bookingRef.toLowerCase());
+
+            if (!booking) {
+                searchError.style.display = 'none';
+                searchSection.style.display = 'none';
+                notFoundSection.style.display = 'block';
+                invoiceDisplay.style.display = 'none';
+                return;
+            }
+
+            currentBooking = booking;
+
+            // Populate invoice fields
+            populateInvoice(booking);
+
+            searchError.style.display = 'none';
+            searchSection.style.display = 'none';
+            notFoundSection.style.display = 'none';
+            invoiceDisplay.style.display = 'block';
+
+            // Generate QR code after a short delay
+            setTimeout(() => generateViewQRCode(booking.id), 100);
+
+            // Scroll to invoice
+            invoiceDisplay.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function populateInvoice(booking) {
+            // Customer info
+            document.getElementById('viewRef').textContent = booking.id;
+            document.getElementById('viewName').textContent = booking.customer.name;
+            document.getElementById('viewEmail').textContent = booking.customer.email;
+            document.getElementById('viewPhone').textContent = booking.customer.phone;
+            document.getElementById('viewNID').textContent = booking.customer.nid;
+
+            // Dates
+            const pickupDate = new Date(booking.pickup.date);
+            const dropoffDate = new Date(booking.dropoff.date);
+            document.getElementById('viewPickupDate').textContent = formatDateForInvoice(pickupDate);
+            document.getElementById('viewDropoffDate').textContent = formatDateForInvoice(dropoffDate);
+            document.getElementById('viewDays').textContent = `${booking.days} day(s)`;
+
+            // Created date
+            const createdDate = new Date(booking.timestamp);
+            document.getElementById('viewCreated').textContent = formatDateForInvoice(createdDate);
+
+            // Locations
+            document.getElementById('viewPickupLocation').textContent = booking.pickup.location;
+            document.getElementById('viewDropoffLocation').textContent = booking.dropoff.location;
+
+            // Car details
+            document.getElementById('viewCarName').textContent = booking.car.name;
+            document.getElementById('viewTransmission').textContent = booking.car.specs.transmission;
+            document.getElementById('viewFuel').textContent = booking.car.specs.fuelType;
+            document.getElementById('viewSeats').textContent = `${booking.car.specs.seats} Seats`;
+            document.getElementById('viewDescription').textContent = booking.car.description;
+            document.getElementById('viewDailyPrice').textContent = `৳${booking.car.priceDaily.toLocaleString()}`;
+
+            // Price calculation
+            let dailyRate = booking.car.priceDaily;
+            if (booking.days >= 30) {
+                dailyRate = booking.car.priceMonthly / 30;
+            } else if (booking.days >= 7) {
+                dailyRate = booking.car.priceWeekly / 7;
+            }
+            const subtotal = dailyRate * booking.days;
+            let discountRate = 0;
+            if (booking.days >= 30) discountRate = 0.20;
+            else if (booking.days >= 7) discountRate = 0.10;
+            const discountAmount = subtotal * discountRate;
+            const total = subtotal - discountAmount;
+
+            document.getElementById('viewDayCount').textContent = booking.days;
+            document.getElementById('viewSubtotal').textContent = formatPrice(Math.round(subtotal));
+            document.getElementById('viewDiscountRate').textContent = (discountRate * 100).toFixed(0);
+            document.getElementById('viewDiscountAmount').textContent = discountAmount > 0 ? `-${formatPrice(Math.round(discountAmount))}` : formatPrice(0);
+            document.getElementById('viewTotal').textContent = formatPrice(Math.round(total));
+
+            // Show/hide discount row
+            const discountRow = document.getElementById('discountRowView');
+            if (discountRow) {
+                discountRow.style.display = discountAmount > 0 ? 'flex' : 'none';
+            }
+
+            // Year
+            document.getElementById('viewYear').textContent = new Date().getFullYear();
+        }
+
+        // Generate QR Code for viewing (reusing generateQRCode logic but for view section)
+        function generateViewQRCode(bookingRef) {
+            const qrContainer = document.getElementById('viewQRCode');
+            if (!qrContainer) return;
+
+            qrContainer.innerHTML = '';
+
+            // Use a temporary on-screen hidden div for QR generation (must be in DOM and rendered)
+            const tempDiv = document.createElement('div');
+            tempDiv.style.cssText = 'position:fixed;left:0;top:0;width:150px;height:150px;z-index:999999;background:white;padding:10px;';
+            tempDiv.style.visibility = 'hidden';
+            document.body.appendChild(tempDiv);
+
+            try {
+                new QRCode(tempDiv, {
+                    text: `Booking Ref: ${bookingRef}\nStatus: Confirmed\nCompany: SSL Rent a Car BD`,
+                    width: 150,
+                    height: 150,
+                    colorDark: '#667eea',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+
+                // After QR renders, move it into container (500ms delay)
+                setTimeout(() => {
+                    const qrElement = tempDiv.querySelector('canvas, img');
+                    if (qrElement) {
+                        qrContainer.appendChild(qrElement);
+                    }
+                    tempDiv.remove();
+                }, 500);
+            } catch (e) {
+                console.error('QR generation failed:', e);
+                tempDiv.remove();
+                qrContainer.textContent = bookingRef;
+            }
+        }
+
+        // Download current displayed invoice as PDF (A4 with QR)
+        function downloadCurrentInvoice() {
+            if (!currentBooking) return;
+
+            const qrContainer = document.getElementById('viewQRCode');
+
+            // Main download routine
+            function performDownload() {
+                const invoiceElement = document.getElementById('invoiceToPrint');
+                const fileName = `SSL_Rent_a_Car_Invoice_${currentBooking.id}.pdf`;
+
+                // Store original styles
+                const outerOriginal = {
+                    display: invoiceElement.style.display,
+                    position: invoiceElement.style.position,
+                    left: invoiceElement.style.left,
+                    top: invoiceElement.style.top,
+                    width: invoiceElement.style.width,
+                    maxWidth: invoiceElement.style.maxWidth,
+                    margin: invoiceElement.style.margin,
+                    padding: invoiceElement.style.padding,
+                    border: invoiceElement.style.border,
+                    borderRadius: invoiceElement.style.borderRadius,
+                    boxShadow: invoiceElement.style.boxShadow,
+                    overflow: invoiceElement.style.overflow
+                };
+
+                // Also adjust inner content wrapper if exists
+                const bodyElem = invoiceElement.querySelector('.invoice-body');
+                const bodyOriginal = bodyElem ? { padding: bodyElem.style.padding } : null;
+
+                // Temporarily adjust for A4 PDF capture
+                invoiceElement.style.display = 'block';
+                invoiceElement.style.position = 'absolute';
+                invoiceElement.style.left = '-9999px';
+                invoiceElement.style.top = '0';
+                invoiceElement.style.width = '190mm'; // Printable width within A4 margins
+                invoiceElement.style.maxWidth = '190mm';
+                invoiceElement.style.margin = '0 auto';
+                invoiceElement.style.overflow = 'visible';
+
+                if (bodyElem) {
+                    bodyElem.style.padding = '15mm';
+                }
+
+                const opt = {
+                    margin: [10, 10, 10, 10],
+                    filename: fileName,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        scrollX: 0,
+                        scrollY: 0,
+                        windowWidth: 1200,
+                        windowHeight: invoiceElement.scrollHeight,
+                        onclone: function(clonedDoc) {
+                            const qr = clonedDoc.getElementById('viewQRCode');
+                            if (qr) {
+                                qr.style.visibility = 'visible';
+                                qr.style.opacity = '1';
+                            }
+                        }
+                    },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+                };
+
+                setTimeout(function() {
+                    html2pdf().set(opt).from(invoiceElement).save().then(() => {
+                        Object.assign(invoiceElement.style, outerOriginal);
+                        if (bodyOriginal && bodyElem) Object.assign(bodyElem.style, bodyOriginal);
+                    }).catch(err => {
+                        console.error('PDF generation error:', err);
+                        Object.assign(invoiceElement.style, outerOriginal);
+                        if (bodyOriginal && bodyElem) Object.assign(bodyElem.style, bodyOriginal);
+                        alert('Failed to generate PDF. Please try again or use Print.');
+                    });
+                }, 800);
+            }
+
+            // If QR code not yet generated, wait for it
+            if (qrContainer && qrContainer.children.length === 0) {
+                let attempts = 0;
+                const maxAttempts = 12; // ~2.4 seconds max wait
+                const interval = setInterval(() => {
+                    if (qrContainer.children.length > 0 || attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        performDownload();
+                    }
+                    attempts++;
+                }, 200);
+            } else {
+                performDownload();
+            }
+        }
+
+
+
+        // Reset to search
+        function searchAgain() {
+            document.getElementById('searchSection').style.display = 'block';
+            document.getElementById('invoiceDisplay').style.display = 'none';
+            document.getElementById('notFoundSection').style.display = 'none';
+            document.getElementById('bookingRefInput').value = '';
+            document.getElementById('searchError').style.display = 'none';
+            currentBooking = null;
+        }
+
+        // Format date for invoice
+        function formatDateForInvoice(date) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-GB', options);
+        }
+    </script>
+</body>
+
+</html>
