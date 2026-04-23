@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <!-- Visa/Mastercard combined - official brand colors -->
+  <rect x="0" y="5" width="98" height="70" rx="4" fill="#1A1F71"/>
+  <text x="49" y="45" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">VISA</text>
+  <rect x="102" y="5" width="98" height="70" rx="4" fill="#EB001B"/>
+  <text x="151" y="45" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">Mastercard</text>
+</svg>

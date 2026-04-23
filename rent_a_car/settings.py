@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a5ee2v9b&0d!ndfaixvo(s2tnh1#bvv6_cdj8329&0k9(c!xjt'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-a5ee2v9b&0d!ndfaixvo(s2tnh1#bvv6_cdj8329&0k9(c!xjt')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'testserver']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,[::1],testserver').split(',')
 
 
 # Application definition
@@ -145,13 +145,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email Configuration
 # For Gmail: Use App Password (2FA enabled) or enable "Less secure app access"
 # Set environment variables: EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'noreply@sslrentacarbd.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')  # Keep empty if not configured
-DEFAULT_FROM_EMAIL = 'SSL Rent a Car BD <noreply@sslrentacarbd.com>'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'SSL Rent a Car BD <noreply@sslrentacarbd.com>')
 
 # Optional: Console backend for development (uncomment to use)
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
